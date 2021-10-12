@@ -1,4 +1,5 @@
 const express = require('express');
+const exphbs = require('express-handlebars');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -45,6 +46,11 @@ app.options('*', cors());
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
+// add Handlebars render engine
+app.engine('handlebars', exphbs());
+app.set('views', config.views_path);
+app.set('view engine', 'handlebars');
+
 // limit repeated failed requests to auth endpoints
 if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
@@ -52,6 +58,10 @@ if (config.env === 'production') {
 
 // v1 api routes
 app.use('/v1', routes);
+
+app.get('/users/:id?', (req, res, next) => {
+  res.render('users', {id : req.params.id});
+});
 
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {
