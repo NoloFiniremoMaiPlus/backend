@@ -1,18 +1,22 @@
 const mongoose = require('mongoose');
-const { toJSON, paginate } = require('./plugins');;
+const { toJSON, paginate } = require('./plugins');
+const dateRangeSchema = require('./dateRange.model');
+const {Item} = require('./item.model');
+const User = require('./user.model');
 
 // Finished = finito tempo di noleggio
 // Completed = Chiuso noleggio, ha pagato anche eventuali surplus
 const states = ["Booked", "Ongoing", "Finished", "Completed"];
 
-const dateRangeSchema = mongoose.Schema({
-    from: {type: Date},
-    to: {type: Date}
-}, {_id: false});
-
 const rentalSchema = mongoose.Schema({
     user: {
-        type: String,
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
+    item: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Item',
         required: true,
     },
     state: {
@@ -20,7 +24,7 @@ const rentalSchema = mongoose.Schema({
         enum: states,
         default: "Booked",
     },
-    date: {
+    dateRange: {
         type: dateRangeSchema,
         required: true,
     },
@@ -45,4 +49,4 @@ rentalSchema.plugin(paginate);
  */
 const Rental = mongoose.model('Rental', rentalSchema);
 
-module.exports = Rental;
+module.exports = {rentalSchema, Rental};

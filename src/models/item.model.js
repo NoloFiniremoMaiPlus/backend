@@ -1,17 +1,10 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
+const dateRangeSchema = require('./dateRange.model');
 
 const reasons = ["sligthy damaged", "damaged", "destroyed"];
 
-const availabilitySchema = mongoose.Schema({
-  from: {
-    type: Date,
-    required: true
-  },
-  to: {
-    type: Date
-  },
-}, {_id: false});
+// TODO : delete duplicated discount and surcharge Schemas
 
 const discountUserSchema = mongoose.Schema({
   user: {
@@ -25,12 +18,9 @@ const discountUserSchema = mongoose.Schema({
 }, {_id: false});
 
 const discountDateSchema = mongoose.Schema({
-  from: {
-    type: Date,
-    required: true
-  },
-  to: {
-    type: Date
+  dateRange : {
+    type : dateRangeSchema,
+    required : true
   },
   amount: {
     type: Number,
@@ -71,12 +61,9 @@ const surchargeUserSchema = mongoose.Schema({
 }, {_id: false});
 
 const surchargeDateSchema = mongoose.Schema({
-  from: {
-    type: Date,
-    required: true
-  },
-  to: {
-    type: Date
+  dateRange : {
+    type : dateRangeSchema,
+    required : true
   },
   amount: {
     type: Number,
@@ -170,10 +157,9 @@ const itemSchema = mongoose.Schema({
     default: true,
   },
   availability: {
-    type: [availabilitySchema],
-  }
-  // rentals : { type : [rentalSchema] }
-});
+    type: [dateRangeSchema],
+  },
+},);
 
 const categorySchema = mongoose.Schema(
   {
@@ -187,6 +173,7 @@ const categorySchema = mongoose.Schema(
       required: false,
       trim: true,
     },
+    // TODO Change this to ref ?
     items: {
       type: Map,
       of: itemSchema

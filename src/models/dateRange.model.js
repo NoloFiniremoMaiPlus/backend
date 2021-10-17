@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
+// TODO: to->min : from
 const dateRangeSchema = mongoose.Schema({
   from: {
     type: Date,
@@ -15,9 +16,4 @@ const dateRangeSchema = mongoose.Schema({
 dateRangeSchema.plugin(toJSON);
 dateRangeSchema.plugin(paginate);
 
-/**
- * @typedef Item
- */
-const DateRange = mongoose.model('DateRange', DateRange);
-
-module.exports = dateRange;
+module.exports = dateRangeSchema;
