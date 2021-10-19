@@ -1,12 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 const dateRangeSchema = require('./dateRange.model');
-const {Item} = require('./item.model');
-const User = require('./user.model');
-
-// Finished = finito tempo di noleggio
-// Completed = Chiuso noleggio, ha pagato anche eventuali surplus
-const states = ["Booked", "Ongoing", "Finished", "Completed"];
+const rentalStates = require('../config/rentalStates');
 
 const rentalSchema = mongoose.Schema({
     user: {
@@ -21,7 +16,7 @@ const rentalSchema = mongoose.Schema({
     },
     state: {
         type: String,
-        enum: states,
+        enum: rentalStates,
         default: "Booked",
     },
     dateRange: {

@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 const dateRangeSchema = require('./dateRange.model');
-
-const reasons = ["sligthy damaged", "damaged", "destroyed"];
+const reasons = require('../config/reasons');
 
 // TODO : delete duplicated discount and surcharge Schemas
 
-const discountUserSchema = mongoose.Schema({
+const priceChangeUserSchema = mongoose.Schema({
   user: {
     type: String,
   },
@@ -17,7 +16,7 @@ const discountUserSchema = mongoose.Schema({
   }
 }, {_id: false});
 
-const discountDateSchema = mongoose.Schema({
+const priceChangeDateSchema = mongoose.Schema({
   dateRange : {
     type : dateRangeSchema,
     required : true
@@ -29,7 +28,8 @@ const discountDateSchema = mongoose.Schema({
   }
 }, {_id: false});
 
-const discountWeekDaySchema = mongoose.Schema({
+// Useless for now
+const priceChangeWeekDaySchema = mongoose.Schema({
   from: {
     type: Number,
     required: true,
@@ -49,50 +49,7 @@ const discountWeekDaySchema = mongoose.Schema({
   }
 }, {_id: false});
 
-const surchargeUserSchema = mongoose.Schema({
-  user: {
-    type: String,
-  },
-  amount: {
-    type: Number,
-    min: 0,
-    max: 100
-  }
-}, {_id: false});
-
-const surchargeDateSchema = mongoose.Schema({
-  dateRange : {
-    type : dateRangeSchema,
-    required : true
-  },
-  amount: {
-    type: Number,
-    min: 0,
-    max: 100
-  }
-}, {_id: false});
-
-const surchargeWeekDaySchema = mongoose.Schema({
-  from: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 6
-  },
-  // TODO: to->min : from
-  to: {
-    type: Number,
-    min: 0,
-    max: 6
-  },
-  amount: {
-    type: Number,
-    min: 0,
-    max: 100
-  }
-}, {_id: false});
-
-const surchargeExtraSchema = mongoose.Schema({
+const priceChangeReasonSchema = mongoose.Schema({
   reason: {
     type: String,
     enum: reasons,
@@ -138,19 +95,19 @@ const itemSchema = mongoose.Schema({
     type: [String],
   },
   discountsUser: {
-    type: [discountUserSchema],
+    type: [priceChangeUserSchema],
   },
   discountsDate: {
-    type: [discountDateSchema],
+    type: [priceChangeDateSchema],
   },
   surchargeUser: {
-    type: [surchargeUserSchema],
+    type: [priceChangeUserSchema],
   },
   surchargeDate: {
-    type: [surchargeDateSchema],
+    type: [priceChangeDateSchema],
   },
   surchargeExtra:{
-    type: [surchargeExtraSchema],
+    type: [priceChangeReasonSchema],
   },
   enabled : {
     type: Boolean,
@@ -167,17 +124,15 @@ const categorySchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      unique: true,
     },
     description: {
       type: String,
       required: false,
       trim: true,
     },
-    // TODO Change this to ref ?
-    items: {
-      type: Map,
-      of: itemSchema
-    }
+    items: [{type: mongoose.Types.ObjectId,
+              ref: itemSchema}]
   },
   {
     timestamps: true,
