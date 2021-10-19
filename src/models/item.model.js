@@ -116,48 +116,20 @@ const itemSchema = mongoose.Schema({
   availability: {
     type: [dateRangeSchema],
   },
-},);
+}, {
+  timestamps: true,
+  collection: 'categories'
+  });
 
-const categorySchema = mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-      unique: true,
-    },
-    description: {
-      type: String,
-      required: false,
-      trim: true,
-    },
-    items: [{type: mongoose.Types.ObjectId,
-              ref: itemSchema}]
-  },
-  {
-    timestamps: true,
-    collection: 'categories'
-  }
-);
-
-
-// add plugin that converts mongoose to json
-categorySchema.plugin(toJSON);
-categorySchema.plugin(paginate);
 
 // add plugin that converts mongoose to json
 itemSchema.plugin(toJSON);
 itemSchema.plugin(paginate);
 
-/**
- * @typedef Category
- */
- const Category = mongoose.model('Category', categorySchema);
 
 /**
  * @typedef Item
  */
 const Item = mongoose.model('Item', itemSchema);
 
-module.exports = {Category, 
-                  Item};
+module.exports = Item;
