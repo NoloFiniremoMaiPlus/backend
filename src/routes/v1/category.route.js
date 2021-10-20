@@ -1,14 +1,19 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const categoryController = require('../../controllers/category.controller');
+const { categoryValidation } = require('../../validations');
+const { categoryController } = require('../../controllers');
 
 const router = express.Router();
 
 router
-.route('/')
-.get(categoryController.getCategories);
+  .route('/')
+  .get(validate(categoryValidation.getCategory),categoryController.getCategories);
 
+router
+  .route('/add')
+  .post(categoryController.addCategory);
+  
 module.exports = router;
 
 /**
