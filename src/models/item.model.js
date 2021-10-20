@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 const dateRangeSchema = require('./dateRange.model');
-const reasons = require('../config/reasons');
+const itemStates = require('../config/itemStates');
 
 // TODO : delete duplicated discount and surcharge Schemas
 
@@ -52,7 +52,7 @@ const priceChangeWeekDaySchema = mongoose.Schema({
 const priceChangeReasonSchema = mongoose.Schema({
   reason: {
     type: String,
-    enum: reasons,
+    enum: itemStates,
   },
   amount: {
     type: Number,
