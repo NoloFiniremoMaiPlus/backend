@@ -24,6 +24,7 @@ module.exports = router;
  *   description: Authentication
  */
 
+// TODO Add optional properties (prefernze noleggio, modalità pagamento)
 /**
  * @swagger
  * /auth/register:
