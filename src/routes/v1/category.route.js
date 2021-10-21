@@ -8,12 +8,15 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(validate(categoryValidation.getCategory),categoryController.getCategories);
+  .get(validate(categoryValidation.getCategories), categoryController.getCategories)
+  .post(validate(categoryValidation.addCategory), categoryController.addCategory)
 
 router
-  .route('/add')
-  .post(categoryController.addCategory);
-  
+  .route('/:categoryId')
+  // TODO .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
+  // TODO .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
+  .delete( validate(categoryValidation.deleteCategory), categoryController.deleteCategory);
+
 module.exports = router;
 
 /**

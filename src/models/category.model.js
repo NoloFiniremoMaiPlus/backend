@@ -30,7 +30,7 @@ categorySchema.plugin(paginate);
 /**
  * @typedef Category
  */
-categorySchema.index( {name: "text", description: "text"} );
+//categorySchema.index( {name: "text", description: "text"} );
 const Category = mongoose.model('Category', categorySchema);
 
 module.exports = Category;
