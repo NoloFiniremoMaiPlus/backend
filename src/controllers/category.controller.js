@@ -10,7 +10,9 @@ const addCategory = catchAsync(async (req, res) => {
 });
 
 const getCategories = catchAsync(async (req, res) => {
-    const filter = pick(req.query, ['_id', 'text']);
+    const filter = pick(req.query, ['_id']);
+    if(req.query.hasOwnProperty('text'))
+        filter.$text = { $search: req.query.text };
     const options = pick(req.query, ['sortBy', 'limit', 'page']);
     const category = await categoryService.getCategories(filter, options);
     res.send(category);

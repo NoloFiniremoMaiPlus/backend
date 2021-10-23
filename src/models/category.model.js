@@ -5,15 +5,15 @@ const { toJSON, paginate } = require('./plugins');
 const categorySchema = mongoose.Schema(
 {
     name: {
-    type: String,
-    required: true,
-    trim: true,
-    unique: true,
+        type: String,
+        required: true,
+        trim: true,
+        unique: true,
     },
     description: {
-    type: String,
-    required: false,
-    trim: true,
+        type: String,
+        required: false,
+        trim: true,
     },
     items: [{type: mongoose.Types.ObjectId,
             ref: "itemSchema"}]
@@ -30,7 +30,7 @@ categorySchema.plugin(paginate);
 /**
  * @typedef Category
  */
-//categorySchema.index( {name: "text", description: "text"} );
+categorySchema.index( {name: "text", description: "text"} );
 const Category = mongoose.model('Category', categorySchema);
 
 module.exports = Category;

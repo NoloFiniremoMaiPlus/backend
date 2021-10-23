@@ -15,7 +15,7 @@ router
   .route('/:categoryId')
   // TODO .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
   // TODO .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
-  .delete( validate(categoryValidation.deleteCategory), categoryController.deleteCategory);
+  .delete(validate(categoryValidation.deleteCategory), categoryController.deleteCategory);
 
 module.exports = router;
 
@@ -34,6 +34,7 @@ module.exports = router;
  *         [category {
  *           name : "name",
  *           description: "desc",
- *           price: // ??
+ *           priceFrom: // ??
+ *           priceTo: // ??
  *         }]
  */

@@ -10,8 +10,8 @@ const addCategory = {
 
 const getCategories = {
     query: Joi.object().keys({
-        name: Joi.string(),
-        text: Joi.string(),
+        name: Joi.string().allow(null, ''),
+        text: Joi.string().allow(null, ''),
         sortBy: Joi.string(),
         limit: Joi.number().integer(),
         page: Joi.number().integer(),
