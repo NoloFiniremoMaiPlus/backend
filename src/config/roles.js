@@ -1,6 +1,7 @@
 const allRoles = {
   user: [],
-  admin: ['getUsers', 'manageUsers', 'manageItems'],
+  backoffice: [],
+  manager: ['getUsers', 'manageUsers', 'manageItems'],
 };
 
 // TODO add funzionario e mangare

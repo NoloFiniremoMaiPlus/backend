@@ -14,5 +14,4 @@ const periodSchema = Joi.alternatives().conditional(Joi.object({ from : Joi.date
     })
 });
 
-
 module.exports = { periodSchema }
