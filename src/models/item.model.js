@@ -94,6 +94,11 @@ const itemSchema = mongoose.Schema({
   otherImages: {
     type: [String],
   },
+  state: {
+    type: String,
+    enum: itemStates,
+    default: 'Mint',
+  },
   discountsUser: {
     type: [priceChangeUserSchema],
   },
