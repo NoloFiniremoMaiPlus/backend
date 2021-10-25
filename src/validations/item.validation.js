@@ -3,24 +3,6 @@ const { objectId } = require('./custom.validation');
 const { periodSchema } = require('./period.validation')
 
 
-  // discountsUser: {
-  //   type: [priceChangeUserSchema],
-  // discountsDate: {
-  //   type: [priceChangeDateSchema],
-  // },
-  // surchargeUser: {
-  //   type: [priceChangeUserSchema],
-  // },
-  // surchargeDate: {
-  //   type: [priceChangeDateSchema],
-  // },
-  // surchargeExtra:{
-  //   type: [priceChangeReasonSchema],
-  // },
-  // availability: {
-  //   type: [dateRangeSchema],
-  // },
-
 const addItem = {
     body: Joi.object().keys({
       name: Joi.string().required(),
@@ -31,7 +13,7 @@ const addItem = {
       frontImage: Joi.string().allow(null, '').default(null),
       otherImages: Joi.array().items(Joi.string().allow(null, '')).default(null),
       state: Joi.string().valid('Mint', 'Sligthy damaged', 'Damaged', 'Destroyed').default('Mint'),
-      //TODO: mancano quei cosi
+      availability: Joi.array().items(periodSchema),
       enabled: Joi.boolean().default(true),
     }),
 }
@@ -48,7 +30,7 @@ const updateItem = {
     frontImage: Joi.string().allow(null, ''),
     otherImages: Joi.array().items(Joi.string().allow(null, '')),
     state: Joi.string().valid('Mint', 'Sligthy damaged', 'Damaged', 'Destroyed'),
-    //TODO: mancano quei cosi
+    availability : Joi.array().items(periodSchema),
     enabled: Joi.boolean().default(true),
   }),
 }
@@ -62,8 +44,8 @@ const getItems = {
         state: Joi.array().items(Joi.string().valid('Mint', 'Sligthy damaged', 'Damaged', 'Destroyed')),
         priceFrom: Joi.number().integer(),
         priceTo: Joi.number().integer(),
-        dateFrom: Joi.date().format('DD/MM/YYYY'),
-        dateTo: Joi.date().format('DD/MM/YYYY'),
+        dateFrom: Joi.date(),
+        dateTo: Joi.date(),
         sortBy: Joi.string(),
         descending: Joi.bool().default(true),
         limit: Joi.number().integer(),
