@@ -3,7 +3,7 @@ const Joi = require('joi');
 /* Accept either :
     - Date in ISO format
     - number of weekday */
-const periodSchema = Joi.alternatives().conditional(Joi.object({ from : Joi.date().iso()}).unknown(), {
+const dateRangeSchema = Joi.alternatives().conditional(Joi.object({ from : Joi.date().iso()}).unknown(), {
     then : Joi.object({
         from: Joi.date().iso().required(),
         to: Joi.date().iso().min(Joi.ref('from')) // min is used as >=
@@ -14,4 +14,4 @@ const periodSchema = Joi.alternatives().conditional(Joi.object({ from : Joi.date
     })
 });
 
-module.exports = { periodSchema }
+module.exports = { dateRangeSchema }
