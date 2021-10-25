@@ -9,9 +9,9 @@ const router = express.Router();
 //TODO: creare i ruoli per l'autentication
 router
   .route('/')
-  .get(auth('getItems'), validate(itemValidation.getItems), itemController.getItems)
-  .post(auth('manageItems'), validate(itemValidation.addItem), itemController.addItem)
-
+  .get(/*auth('getItems'),*/ validate(itemValidation.getItems), itemController.getItems)
+  .post(/*auth('manageItems'),*/ validate(itemValidation.addItem), itemController.addItem)
+/*
 router
   .route('/:itemId')
   .get(auth('getItems'), validate(itemValidation.getItem), itemController.getItem)
@@ -27,5 +27,5 @@ router
 router
   .route('/toggleNotifications/:itemId')
   .post(auth('rentItems'), validate(itemValidation.toggleItemNotifications), toggleItemNotifications)
-
+*/
 module.exports = router;
