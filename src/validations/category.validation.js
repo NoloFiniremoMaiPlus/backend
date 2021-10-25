@@ -1,6 +1,23 @@
 const Joi = require('joi');
 const { objectId } = require('./custom.validation');
 
+// basePrice : 
+// dailyPrice : 
+// discountsUser: {
+//   type: [priceChangeUserSchema],
+// discountsDate: {
+//   type: [priceChangeDateSchema],
+// },
+// surchargeUser: {
+//   type: [priceChangeUserSchema],
+// },
+// surchargeDate: {
+//   type: [priceChangeDateSchema],
+// },
+// surchargeExtra:{
+//   type: [priceChangeReasonSchema],
+// },
+
 const addCategory = {
     body: Joi.object().keys({
         name: Joi.string().required(),
