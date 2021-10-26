@@ -51,6 +51,11 @@ const categorySchema = mongoose.Schema({
 categorySchema.plugin(toJSON);
 categorySchema.plugin(paginate);
 
+categorySchema.statics.isNameTaken = async function (name, excludeCategoryId) {
+	const category = await this.findOne({ name, _id: { $ne: excludeCategoryId } });
+	return !!category;
+};
+
 /**
  * @typedef Category
  */

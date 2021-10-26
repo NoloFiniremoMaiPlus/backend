@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const mongoose = require('mongoose');
 const { Category } = require('../models');
+const catchAsync = require('../utils/catchAsync');
 const ApiError = require('../utils/ApiError');
 
 const addCategory = async (categoryBody) => {
@@ -17,12 +18,16 @@ const getCategoryById = async (categoryId) => {
 };
 
 const updateCategory = async (categoryId, updateBody) => {
-    await Category.updateOne({_id : categoryId}, updateBody, (err, result) => {
-        if(err || result.n === 0) throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
-    });
-    const updatedCategory = await getCategoryById(categoryId);
-    return updatedCategory;
-}
+    
+    if(!(await getCategoryById(categoryId)))
+        throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
+    
+    if(updateBody.name && (await Category.isNameTaken(updateBody.name, categoryId)))
+        throw new ApiError(httpStatus.CONFLICT, 'Name already exists');
+
+    const updated = await Category.findByIdAndUpdate(categoryId, updateBody, {new: true});
+    return updated;
+};
 
 /**
  * Delete category by id
