@@ -29,6 +29,29 @@ const getCategories = {
 	}),
 };
 
+const getCategory = {
+	params: Joi.object().keys({
+		categoryId: Joi.string().custom(objectId),
+	}),
+}
+
+const updateCategory = {
+	params: Joi.object().keys({
+		categoryId: Joi.string().custom(objectId),
+	}),
+	body: Joi.object().keys({
+		name: Joi.string(),
+		description: Joi.string(),
+		basePrice: Joi.number(),
+		dailyPrice: Joi.number(),
+		discountsUser: Joi.array().items(priceChangeUserSchema),
+		discountsDate: Joi.array().items(priceChangeDateSchema),
+		surchargeUser: Joi.array().items(priceChangeUserSchema),
+		surchargeDate: Joi.array().items(priceChangeDateSchema),
+		surchargeExtra: Joi.array().items(priceChangeReasonSchema),
+	}),
+}
+
 const deleteCategory = {
 	params: Joi.object().keys({
 		categoryId: Joi.string().custom(objectId),
@@ -38,5 +61,7 @@ const deleteCategory = {
 module.exports = {
 	addCategory,
 	getCategories,
+	getCategory,
+	updateCategory,
 	deleteCategory,
 };

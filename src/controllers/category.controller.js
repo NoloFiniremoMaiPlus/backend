@@ -14,7 +14,17 @@ const getCategories = catchAsync(async (req, res) => {
     if(req.query.hasOwnProperty('text'))
         filter.$text = { $search: req.query.text };
     const options = pick(req.query, ['sortBy', 'limit', 'page']);
-    const category = await categoryService.getCategories(filter, options);
+    const categories = await categoryService.getCategories(filter, options);
+    res.send(categories);
+});
+
+const getCategory = catchAsync(async (req, res) => {
+    const category = await categoryService.getCategoryById(req.params.categoryId);
+    res.send(category);
+});
+
+const updateCategory = catchAsync(async (req, res) => {
+    const category = await categoryService.updateCategory(req.params.categoryId, req.body);
     res.send(category);
 });
 
@@ -26,5 +36,7 @@ const deleteCategory = catchAsync(async (req, res) => {
 module.exports = {
     addCategory,
     getCategories,
+    getCategory,
+    updateCategory,
     deleteCategory,
 }
