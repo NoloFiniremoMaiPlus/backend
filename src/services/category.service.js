@@ -25,8 +25,10 @@ const updateCategory = async (categoryId, updateBody) => {
     if(updateBody.name && (await Category.isNameTaken(updateBody.name, categoryId)))
         throw new ApiError(httpStatus.CONFLICT, 'Name already exists');
 
-    const updated = await Category.findByIdAndUpdate(categoryId, updateBody, {new: true});
-    return updated;
+    Category.findByIdAndUpdate(categoryId, updateBody, {new: true}, (err, result) => {
+        if(err) throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
+        return result;
+    });
 };
 
 /**
@@ -35,7 +37,7 @@ const updateCategory = async (categoryId, updateBody) => {
  * @returns {Promise<Category>}
  */
 const deleteCategoryById = async (categoryId) => {
-    await Category.deleteOne({_id : categoryId}, (err, result) => {
+    Category.deleteOne({_id : categoryId}, (err, result) => {
         if(err || result.n === 0) throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
         return result;
     });
