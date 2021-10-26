@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+var Float = require('mongoose-float').loadType(mongoose, 2);
 const { toJSON, paginate } = require('./plugins');
 const { priceChangeDateSchema,
-			  priceChangeUserSchema,
-			  priceChangeReasonSchema } = require('./priceChange.model');
+		priceChangeUserSchema,
+		priceChangeReasonSchema } = require('./priceChange.model');
 
 const categorySchema = mongoose.Schema({
 	name: {
@@ -17,11 +18,11 @@ const categorySchema = mongoose.Schema({
 		trim: true,
 	},
 	basePrice:{
-		type: mongoose.Types.Decimal128,
+		type: Float,
 		required: true,
 	},
 	dailyPrice:{
-		type: mongoose.Types.Decimal128,
+		type: Float,
 		required: true,
 	},
 	discountsUser: {
@@ -40,7 +41,7 @@ const categorySchema = mongoose.Schema({
 		type: [priceChangeReasonSchema],
 	},
 	items: [{type: mongoose.Types.ObjectId,
-						ref: "Item"}],
+			ref: "Item"}],
 	}, {
 		timestamps: true,
     collection: 'categories'
