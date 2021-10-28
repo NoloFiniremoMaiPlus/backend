@@ -25,6 +25,15 @@ const categorySchema = mongoose.Schema({
 		type: Float,
 		required: true,
 	},
+	rating: {
+	  type: Number,
+	  min: 0,
+	  max: 5,
+	},
+	totalRatings: {
+	  type: Number,
+	  default : 0,
+	},
 	discountsUser: {
 		type: [priceChangeUserSchema],
 	},
@@ -42,6 +51,8 @@ const categorySchema = mongoose.Schema({
 	},
 	items: [{type: mongoose.Types.ObjectId,
 			ref: "Item"}],
+	/* review: [{type :mongoose.Types.ObjectId,
+				ref: "Review"}] */ 
 	}, {
 		timestamps: true,
     collection: 'categories'

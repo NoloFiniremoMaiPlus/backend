@@ -15,15 +15,6 @@ const itemSchema = mongoose.Schema({
     required: false,
     trim: true,
   },
-  rating: {
-    type: Number,
-    min: 0,
-    max: 5,
-  },
-  totalRatings: {
-    type: Number,
-    default : 0,
-  },
   frontImage: {
     type: String,
   },

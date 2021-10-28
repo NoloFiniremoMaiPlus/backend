@@ -7,7 +7,6 @@ const addItem = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     description: Joi.string(),
-    totalRatings: Joi.number().integer().default(0),
     frontImage: Joi.string().allow(null, '').default(null),
     otherImages: Joi.array().items(Joi.string().allow(null, '')).default(null),
     state: Joi.string().valid('Mint', 'Sligthy damaged', 'Damaged', 'Destroyed').default('Mint'),
@@ -23,8 +22,6 @@ const updateItem = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     description: Joi.string(),
-    basePrice: Joi.number().required(),
-    dailyPrice: Joi.number().required(),
     frontImage: Joi.string().allow(null, ''),
     otherImages: Joi.array().items(Joi.string().allow(null, '')),
     state: Joi.string().valid('Mint', 'Sligthy damaged', 'Damaged', 'Destroyed'),
