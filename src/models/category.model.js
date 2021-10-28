@@ -25,6 +25,7 @@ const categorySchema = mongoose.Schema({
 		type: Float,
 		required: true,
 	},
+	// TODO spostare review in un model a partes
 	rating: {
 	  type: Number,
 	  min: 0,
