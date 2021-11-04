@@ -4,7 +4,7 @@ const allRoles = {
   manager: ['getUsers', 'manageUsers', 'getItems', 'manageItems'],
 };
 
-// TODO add funzionario e mangare
+// TODO add funzionario e manager
 
 const roles = Object.keys(allRoles);
 const roleRights = new Map(Object.entries(allRoles));
