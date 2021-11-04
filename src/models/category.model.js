@@ -17,11 +17,11 @@ const categorySchema = mongoose.Schema({
 		required: false,
 		trim: true,
 	},
-	basePrice:{
+	basePrice: {
 		type: Float,
 		required: true,
 	},
-	dailyPrice:{
+	dailyPrice: {
 		type: Float,
 		required: true,
 	},
@@ -47,11 +47,12 @@ const categorySchema = mongoose.Schema({
 	surchargeDate: {
 		type: [priceChangeDateSchema],
 	},
-	surchargeExtra:{
+	surchargeExtra: {
 		type: [priceChangeReasonSchema],
 	},
 	items: [{type: mongoose.Types.ObjectId,
 			ref: "Item"}],
+	// TODO
 	/* review: [{type :mongoose.Types.ObjectId,
 				ref: "Review"}] */ 
 	}, {
