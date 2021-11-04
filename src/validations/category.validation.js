@@ -22,7 +22,7 @@ const addCategory = {
 const getCategories = {
 	query: Joi.object().keys({
 		name: Joi.string().allow(null, ''),
-		text: Joi.string().allow(null, ''),
+		keywords: Joi.string().allow(null, ''),
 		sortBy: Joi.string(),
 		limit: Joi.number().integer(),
 		page: Joi.number().integer(),
