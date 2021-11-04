@@ -35,7 +35,6 @@ const itemSchema = mongoose.Schema({
   },
 }, {
   timestamps: true,
-  collection: 'categories'
   });
 
 
