@@ -37,8 +37,6 @@ const getItems = {
     categoryId: Joi.string().custom(objectId),
     rating: Joi.number().default(0),
     state: Joi.array().items(Joi.string().valid('Mint', 'Sligthy damaged', 'Damaged', 'Destroyed')),
-    priceFrom: Joi.number().integer(),
-    priceTo: Joi.number().integer(),
     dateFrom: Joi.date(),
     dateTo: Joi.date(),
     sortBy: Joi.string(),

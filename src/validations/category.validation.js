@@ -23,6 +23,8 @@ const getCategories = {
 	query: Joi.object().keys({
 		name: Joi.string().allow(null, ''),
 		keywords: Joi.string().allow(null, ''),
+		priceFrom: Joi.number().integer(),
+		priceTo: Joi.number().integer(),
 		sortBy: Joi.string(),
 		limit: Joi.number().integer(),
 		page: Joi.number().integer(),
