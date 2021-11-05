@@ -6,21 +6,28 @@ const { itemController } = require('../../controllers');
 
 const router = express.Router();
 
-//TODO: creare i ruoli per l'autentication
 router
   .route('/')
-  .get(/*auth('getItems'),*/ validate(itemValidation.getItems), itemController.getItems)
-  .post(/*auth('manageItems'),*/ validate(itemValidation.addItem), itemController.addItem)
-/*
+  .get(auth('getItems'), validate(itemValidation.getItems), itemController.getItems)
+  .post(auth('manageItems'), validate(itemValidation.addItem), itemController.addItem)
+
 router
   .route('/:itemId')
   .get(auth('getItems'), validate(itemValidation.getItem), itemController.getItem)
   .patch(auth('manageItems'), validate(itemValidation.updateItem), itemController.updateItem)
   .delete(auth('manageItems'), validate(itemValidation.deleteItem), itemController.deleteItem);
 
+
+// TODO renderlo toggleEnableItem ?
 router
   .route('/disableItem/:itemId')
-  .post(auth('manageItems'), validate(itemValidation.disableItem), itemController.disableItem)
+  .post(auth('manageItems'), validate(itemValidation.disableItem), itemController.disableItem);
+
+router
+  .route('/enableItem/:itemId')
+  .post(auth('manageItems'), validate(itemValidation.disableItem), itemController.enableItem);
+
+/* TODO Spostare in category / product
 router
   .route('/toggleFavourite/:itemId')
   .post(auth('rentItems'), validate(itemValidation.toggleFavouriteItem), toggleFavouriteItem)
