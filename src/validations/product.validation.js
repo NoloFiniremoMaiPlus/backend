@@ -5,7 +5,7 @@ const { priceChangeDateSchema,
 		priceChangeReasonSchema } = require('./priceChange.validation');
 
 
-const addCategory = {
+const addProduct = {
 	body: Joi.object().keys({
 		name: Joi.string().required(),
 		description: Joi.string(),
@@ -19,7 +19,7 @@ const addCategory = {
 	}),
 }
 
-const getCategories = {
+const getProducts = {
 	query: Joi.object().keys({
 		name: Joi.string().allow(null, ''),
 		keywords: Joi.string().allow(null, ''),
@@ -31,15 +31,15 @@ const getCategories = {
 	}),
 };
 
-const getCategory = {
+const getProduct = {
 	params: Joi.object().keys({
-		categoryId: Joi.string().custom(objectId),
+		productId: Joi.string().custom(objectId),
 	}),
 }
 
-const updateCategory = {
+const updateProduct = {
 	params: Joi.object().keys({
-		categoryId: Joi.string().custom(objectId),
+		productId: Joi.string().custom(objectId),
 	}),
 	body: Joi.object().keys({
 		name: Joi.string(),
@@ -54,16 +54,16 @@ const updateCategory = {
 	}),
 }
 
-const deleteCategory = {
+const deleteProduct = {
 	params: Joi.object().keys({
-		categoryId: Joi.string().custom(objectId),
+		productId: Joi.string().custom(objectId),
 	}),
 }
 
 module.exports = {
-	addCategory,
-	getCategories,
-	getCategory,
-	updateCategory,
-	deleteCategory,
+	addProduct,
+	getProducts,
+	getProduct,
+	updateProduct,
+	deleteProduct,
 };

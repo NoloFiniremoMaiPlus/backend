@@ -5,7 +5,7 @@ const { priceChangeDateSchema,
 		priceChangeUserSchema,
 		priceChangeReasonSchema } = require('./priceChange.model');
 
-const categorySchema = mongoose.Schema({
+const productSchema = mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
@@ -57,23 +57,23 @@ const categorySchema = mongoose.Schema({
 				ref: "Review"}] */ 
 	}, {
 		timestamps: true,
-    collection: 'categories'
+    collection: 'products'
 	});
   
   
 // add plugin that converts mongoose to json
-categorySchema.plugin(toJSON);
-categorySchema.plugin(paginate);
+productSchema.plugin(toJSON);
+productSchema.plugin(paginate);
 
-categorySchema.statics.isNameTaken = async function (name, excludeCategoryId) {
-	const category = await this.findOne({ name, _id: { $ne: excludeCategoryId } });
-	return !!category;
+productSchema.statics.isNameTaken = async function (name, excludeProductId) {
+	const product = await this.findOne({ name, _id: { $ne: excludeProductId } });
+	return !!product;
 };
 
 /**
- * @typedef Category
+ * @typedef Product
  */
-categorySchema.index( {name: "text", description: "text"} );
-const Category = mongoose.model('Category', categorySchema);
+productSchema.index( {name: "text", description: "text"} );
+const Product = mongoose.model('Product', productSchema);
 
-module.exports = Category;
+module.exports = Product;

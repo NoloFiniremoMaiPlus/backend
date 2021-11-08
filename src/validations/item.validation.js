@@ -34,7 +34,7 @@ const getItems = {
   query: Joi.object().keys({
     name: Joi.string().allow(null, ''),
     keywords: Joi.string().allow(null, ''),
-    categoryId: Joi.string().custom(objectId),
+    productId: Joi.string().custom(objectId),
     rating: Joi.number().default(0),
     state: Joi.array().items(Joi.string().valid('Mint', 'Sligthy damaged', 'Damaged', 'Destroyed')),
     dateFrom: Joi.date(),

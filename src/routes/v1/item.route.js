@@ -27,7 +27,7 @@ router
   .route('/enableItem/:itemId')
   .post(auth('manageItems'), validate(itemValidation.disableItem), itemController.enableItem);
 
-/* TODO Spostare in category / product
+/* TODO Spostare in product
 router
   .route('/toggleFavourite/:itemId')
   .post(auth('rentItems'), validate(itemValidation.toggleFavouriteItem), toggleFavouriteItem)
