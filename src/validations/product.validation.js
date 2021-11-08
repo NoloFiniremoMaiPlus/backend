@@ -25,6 +25,9 @@ const getProducts = {
 		keywords: Joi.string().allow(null, ''),
 		priceFrom: Joi.number().integer(),
 		priceTo: Joi.number().integer(),
+		dateFrom: Joi.date().iso(),
+		dateTo: Joi.date().iso().min(Joi.ref('from')),
+		rating: Joi.number().default(0),
 		sortBy: Joi.string(),
 		limit: Joi.number().integer(),
 		page: Joi.number().integer(),
@@ -60,10 +63,24 @@ const deleteProduct = {
 	}),
 }
 
+const toggleFavourite = {
+	params: Joi.object().keys({
+		productId: Joi.string().custom(objectId),
+	}),
+}
+  
+const toggleNotifications = {
+	params: Joi.object().keys({
+		productId: Joi.string().custom(objectId),
+	}),
+}
+
 module.exports = {
 	addProduct,
 	getProducts,
 	getProduct,
 	updateProduct,
 	deleteProduct,
+	toggleFavourite,
+	toggleNotifications,
 };

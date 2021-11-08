@@ -35,7 +35,6 @@ const getItems = {
     name: Joi.string().allow(null, ''),
     keywords: Joi.string().allow(null, ''),
     productId: Joi.string().custom(objectId),
-    rating: Joi.number().default(0),
     state: Joi.array().items(Joi.string().valid('Mint', 'Sligthy damaged', 'Damaged', 'Destroyed')),
     dateFrom: Joi.date(),
     dateTo: Joi.date(),
@@ -51,18 +50,6 @@ const getItem = {
     itemId: Joi.string().custom(objectId),
   }),
 };
-
-const toggleFavouriteItem = {
-  params: Joi.object().keys({
-    itemId: Joi.string().custom(objectId),
-  }),
-}
-
-const toggleItemNotifications = {
-  params: Joi.object().keys({
-    itemId: Joi.string().custom(objectId),
-  }),
-}
 
 const disableItem = {
   params: Joi.object().keys({
@@ -81,8 +68,6 @@ module.exports = {
   updateItem,
   getItems,
   getItem,
-  toggleFavouriteItem,
-  toggleItemNotifications,
   disableItem,
   deleteItem,
 };
