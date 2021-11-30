@@ -42,6 +42,16 @@ const itemSchema = mongoose.Schema({
 itemSchema.plugin(toJSON);
 itemSchema.plugin(paginate);
 
+/**
+ * Check if Item Name is taken
+ * @param {string} name - The item's name
+ * @param {ObjectId} [excludeItemId] - The id of the item to be excluded
+ * @returns {Promise<boolean>}
+ */
+itemSchema.statics.isNameTaken = async function (name, excludeItemId) {
+  const item = await this.findOne({ name, _id: { $ne: excludeItemId } });
+  return !!item;
+};
 
 /**
  * @typedef Item
