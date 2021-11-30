@@ -1,10 +1,10 @@
 const Joi = require('joi');
 const { objectId } = require('./custom.validation');
-const { dateRangeSchema } = require('./dateRange.validation');
 
 
 const priceChangeDateSchema = {
-	dateRange: dateRangeSchema,
+	from: Joi.date().iso().required(),
+	to: Joi.date().iso().min(Joi.ref('from')), // min is used as >=
 	amount: Joi.number().min(0).max(100),
 }
 

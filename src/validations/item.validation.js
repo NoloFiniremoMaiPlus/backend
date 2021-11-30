@@ -1,6 +1,5 @@
 const Joi = require('joi');
 const { objectId } = require('./custom.validation');
-const { dateRangeSchema } = require('./dateRange.validation')
 
 
 const addItem = {
@@ -10,7 +9,10 @@ const addItem = {
     frontImage: Joi.string().allow(null, '').default(null),
     otherImages: Joi.array().items(Joi.string().allow(null, '')).default(null),
     state: Joi.string().valid('Mint', 'Sligthy damaged', 'Damaged', 'Destroyed').default('Mint'),
-    availability: Joi.array().items(dateRangeSchema),
+    availability: Joi.array().items({
+      from: Joi.date().iso().required(),
+      to: Joi.date().iso().min(Joi.ref('from')) // min is used as >=
+    }),
     enabled: Joi.boolean().default(true),
   }),
 }
@@ -25,7 +27,10 @@ const updateItem = {
     frontImage: Joi.string().allow(null, ''),
     otherImages: Joi.array().items(Joi.string().allow(null, '')),
     state: Joi.string().valid('Mint', 'Sligthy damaged', 'Damaged', 'Destroyed'),
-    availability : Joi.array().items(dateRangeSchema),
+    availability : Joi.array().items({
+      from: Joi.date().iso().required(),
+      to: Joi.date().iso().min(Joi.ref('from')) // min is used as >=
+    }),
     enabled: Joi.boolean(),
   }),
 }
