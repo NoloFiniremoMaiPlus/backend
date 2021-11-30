@@ -34,22 +34,22 @@ const addItem = catchAsync(async (req, res) => {
 
 const updateItem = catchAsync(async (req, res) => {
     const item = await itemService.updateItem(req.params.itemId, req.body);
-    res.send(httpStatus.OK).send(item);
+    res.status(httpStatus.OK).send(item);
 });
 
 const deleteItem = catchAsync(async (req, res) => {
     await itemService.deleteItemById(req.params.itemId);
-    res.status(httpStatus.NO_CONTENT).send();
+    res.sendStatus(httpStatus.NO_CONTENT);
 });
 
 const enableItem = catchAsync(async (req, res) => {
     const item = await itemService.updateItem(req.params.itemId, {"enabled" : "true"});
-    res.send(httpStatus.OK).send(item);
+    res.status(httpStatus.OK).send(item);
 });
 
 const disableItem = catchAsync(async (req, res) => {
     const item = await itemService.updateItem(req.params.itemId, {"enabled" : "false"});
-    res.send(httpStatus.OK).send(item);
+    res.status(httpStatus.OK).send(item);
 });
 
 module.exports = {
