@@ -44,7 +44,6 @@ const getItems = {
     dateFrom: Joi.date(),
     dateTo: Joi.date(),
     sortBy: Joi.string(),
-    descending: Joi.bool().default(true),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
   }),
