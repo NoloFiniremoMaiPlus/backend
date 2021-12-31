@@ -52,4 +52,4 @@ rentalSchema.plugin(paginate);
  */
 const Rental = mongoose.model('Rental', rentalSchema);
 
-module.exports = { rentalSchema, Rental };
+module.exports = Rental;
