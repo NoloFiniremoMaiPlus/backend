@@ -11,6 +11,11 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    surname: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     email: {
       type: String,
       required: true,
@@ -22,6 +27,9 @@ const userSchema = mongoose.Schema(
           throw new Error('Invalid email');
         }
       },
+    },
+    phone: {
+      type: String,
     },
     password: {
       type: String,
