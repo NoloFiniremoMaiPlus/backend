@@ -79,6 +79,18 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
+const addAnnotation = async (userId, annotationBody) => {
+  const user = await getUserById(userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  
+  user.annotations.push(annotationBody);
+  await user.save();
+
+  return user;
+};
+
 module.exports = {
   createUser,
   queryUsers,
@@ -86,4 +98,5 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  addAnnotation,
 };

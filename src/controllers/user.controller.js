@@ -34,10 +34,16 @@ const deleteUser = catchAsync(async (req, res) => {
   res.sendStatus(httpStatus.NO_CONTENT);
 });
 
+const addAnnotation = catchAsync(async (req, res) => {
+  const annotation = await userService.addAnnotation(req.params.userId, req.body);
+  res.send(annotation);
+});
+
 module.exports = {
   createUser,
   getUsers,
   getUser,
   updateUser,
   deleteUser,
+  addAnnotation,
 };

@@ -49,7 +49,16 @@ const userSchema = mongoose.Schema(
       default: 'user',
     },
     annotations: {
-      type: [String],
+      type: [
+        {
+          quick : {
+            type: [String]
+          },
+          text : {
+            type: String,
+          }
+        }
+      ],
     },
     isEmailVerified: {
       type: Boolean,

@@ -50,10 +50,21 @@ const deleteUser = {
   }),
 };
 
+const addAnnotation = {
+  params: Joi.object().keys({
+    userId: Joi.string().custom(objectId),
+  }),
+  body: Joi.object().keys({
+    quick: Joi.array().items(Joi.string()),
+    text: Joi.string(),
+  }),
+}
+
 module.exports = {
   createUser,
   getUsers,
   getUser,
   updateUser,
   deleteUser,
+  addAnnotation,
 };
