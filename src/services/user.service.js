@@ -80,14 +80,7 @@ const deleteUserById = async (userId) => {
 };
 
 const addAnnotation = async (userId, annotationBody) => {
-  const user = await getUserById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
-  
-  user.annotations.push(annotationBody);
-  await user.save();
-
+  const user = await updateUserById(userId, {"annotation" : annotationBody});
   return user;
 };
 

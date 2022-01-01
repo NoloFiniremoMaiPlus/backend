@@ -48,8 +48,8 @@ const userSchema = mongoose.Schema(
       enum: roles,
       default: 'user',
     },
-    annotations: {
-      type: [
+    annotation: {
+      type:
         {
           quick : {
             type: [String]
@@ -57,8 +57,7 @@ const userSchema = mongoose.Schema(
           text : {
             type: String,
           }
-        }
-      ],
+        },
     },
     isEmailVerified: {
       type: Boolean,
