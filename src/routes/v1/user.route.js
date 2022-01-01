@@ -19,6 +19,7 @@ router
 
 router
   .route('/:userId/annotation')
+  .get(auth('manageUsers'), validate(userValidation.getAnnotation), userController.getAnnotation)
   .post(auth('manageUsers'), validate(userValidation.addAnnotation), userController.addAnnotation);
 
 module.exports = router;
