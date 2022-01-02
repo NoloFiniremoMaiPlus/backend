@@ -7,7 +7,7 @@ services:
     environment:
       - MONGODB_URL=mongodb://mongodb:27017/node-boilerplate
     ports:
-      - '8000:8000'
+      - '8443:8443'
     depends_on:
       - mongodb
     volumes:
