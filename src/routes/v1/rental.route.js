@@ -162,5 +162,122 @@ module.exports = router;
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * /rental/{id}:
+ *   get:
+ *     summary: Get a rental
+ *     description: Logged in users can fetch only their own rentals. Only admins can fetch rentals from any user.
+ *     tags: [Rental]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Rental id
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Rental'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
  *
+ *   patch:
+ *     summary: Update a rental info
+ *     description: Logged in users can only update their own information. Only admins can update other users.
+ *     tags: [Rental]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Rental id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - user
+ *               - item
+ *               - from
+ *               - to
+ *               - price
+ *             properties:
+ *               user:
+ *                 type: string
+ *               item:
+ *                 type: string
+ *               state:
+ *                 type: string
+ *               from:
+ *                 type: string
+ *                 format: date
+ *               to:
+ *                 type: string
+ *                 format: date
+ *               price:
+ *                 type: number
+ *               surcharge:
+ *                 type: number
+ *             example:
+ *               user: user-id
+ *               item: item-id
+ *               state: "Booked"
+ *               from: 2022-01-01
+ *               to: 2022-01-07
+ *               price: 50
+ *               surcharge: 0
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Rental'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ *
+ *   delete:
+ *     summary: Delete a rental
+ *     description: Logged in users can delete only themselves. Only admins can delete other users.
+ *     tags: [Rental]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Rental id
+ *     responses:
+ *       "200":
+ *         description: No content
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
  */
