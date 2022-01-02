@@ -8,7 +8,8 @@ const envVarsSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
     VIEWS_PATH: Joi.string().required().description('View Path for Handelbars'),
-    PORT: Joi.number().default(8000),
+    IP: Joi.string().ip(),
+    PORT: Joi.number().default(8443),
     MONGODB_URL: Joi.string().required().description('Mongo DB url'),
     JWT_SECRET: Joi.string().required().description('JWT secret key'),
     JWT_ACCESS_EXPIRATION_MINUTES: Joi.number().default(30).description('minutes after which access tokens expire'),
@@ -36,6 +37,7 @@ if (error) {
 module.exports = {
   env: envVars.NODE_ENV,
   views_path: envVars.VIEWS_PATH,
+  ip: envVars.IP,
   port: envVars.PORT,
   mongoose: {
     url: envVars.MONGODB_URL + (envVars.NODE_ENV === 'test' ? '-test' : ''),
