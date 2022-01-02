@@ -1,5 +1,78 @@
 components:
   schemas:
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        basePrice:
+          type: number
+        dailyPrice:
+          type: number
+        rating:
+          type: number
+        totalRaitings:
+          type: number
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        frontImage:
+          type: string
+        otherImages:
+          type: array
+          items: 
+            type: string
+        state:
+          type: string
+          enum: [Mint, Sligthy damaged, Damaged, Destroyed]
+        availability:
+          type: array
+          items: 
+            type: object
+            properties:
+              from:
+                type: string
+                format: date
+              to:
+                type: string
+                format: date
+
+    Rental:
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          type: string
+        item:
+          type: string
+        state:
+          type: string
+          enum: [Booked, Ongoing, Finished, Completed]
+        from: 
+          type: string
+          format: date
+        to:
+          type: string
+          format: date
+        price:
+          type: number
+        surcharge:
+          type: number
+
     User:
       type: object
       properties:
@@ -10,9 +83,22 @@ components:
           format: email
         name:
           type: string
+        surname:
+          type: string
+        phone:
+          type: string
         role:
           type: string
-          enum: [user, admin]
+          enum: [user, backoffice, manager]
+        annotation:
+          type: object
+          properties:
+            quick:
+              type: array
+              items:
+                type: string
+            text:
+              type: string
       example:
         id: 5ebac534954b54139806c112
         email: fake@example.com
