@@ -11,4 +11,10 @@ router
     .get(/*auth('getUsers'),*/ validate(rentalValidation.getRentals), rentalController.getRentals)
     .post(/*auth(),*/ validate(rentalValidation.createRental), rentalController.createRental);
 
+router
+    .route('/:rentalId')
+    .get(/*auth('getRentals'),*/ validate(rentalValidation.getRental), rentalController.getRental)
+    .patch(/*auth('manageRental'),*/ validate(rentalValidation.updateRental), rentalController.updateRental)
+    .delete(/*auth('manageRental'),*/ validate(rentalValidation.deleteRental), rentalController.deleteRental);
+
 module.exports = router;

@@ -27,11 +27,38 @@ const getRentals = {
     }),
 }
 
+const getRental = {
+    params: Joi.object().keys({
+        rentalId: Joi.string().custom(objectId),
+    }),
+}
+
+const updateRental = {
+    params: Joi.object().keys({
+        rentalId: Joi.string().custom(objectId),
+    }),
+    body: Joi.object().keys({
+        user: Joi.string().custom(objectId).required(),
+        item: Joi.string().custom(objectId).required(),
+        state: Joi.string().valid(...rentalStates),
+        from: Joi.date().iso().required(),
+        to: Joi.date().iso().min(Joi.ref('from')).required(), // min is used as >=
+        price: Joi.number().min(0).required(),
+        surcharge: Joi.number().min(0),
+    })
+    .min(1),
+};
+
+const deleteRental = {
+    params: Joi.object().keys({
+        rentalId: Joi.string().custom(objectId),
+    }),
+};
 
 module.exports = {
     createRental,
     getRentals,
-    /*getRental,
+    getRental,
     updateRental,
-    deleteRental,*/
+    deleteRental,
 };

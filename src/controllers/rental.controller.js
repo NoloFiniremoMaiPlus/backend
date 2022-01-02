@@ -16,10 +16,28 @@ const getRentals = catchAsync(async (req, res) => {
     res.send(result);
 });
 
+const getRental = catchAsync(async (req, res) => {
+    const rental = await rentalService.getRentalById(req.params.rentalId);
+    if (!rental) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Rental not found');
+    }
+    res.send(rental); 
+});
+
+const updateRental = catchAsync(async (req, res) => {
+    const rental = await rentalService.updateRentalById(req.params.rentalId, req.body);
+    res.send(rental);
+});
+
+const deleteRental = catchAsync(async (req, res) => {
+    await rentalService.deleteRentalById(req.params.rentalId);
+    res.sendStatus(httpStatus.NO_CONTENT);
+});
+
 module.exports = {
     createRental,
     getRentals,
-    /*getRental,
+    getRental,
     updateRental,
-    deleteRental,*/
+    deleteRental,
 }
