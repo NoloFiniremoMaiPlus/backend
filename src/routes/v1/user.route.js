@@ -43,16 +43,21 @@ module.exports = router;
  *             type: object
  *             required:
  *               - name
+ *               - surname
  *               - email
  *               - password
  *               - role
  *             properties:
  *               name:
  *                 type: string
+ *               surname:
+ *                 type: string
  *               email:
  *                 type: string
  *                 format: email
  *                 description: must be unique
+ *               phone:
+ *                 type: string
  *               password:
  *                 type: string
  *                 format: password
@@ -60,10 +65,12 @@ module.exports = router;
  *                 description: At least one number and one letter
  *               role:
  *                  type: string
- *                  enum: [user, admin]
+ *                  enum: [user, backoffice, manager]
  *             example:
- *               name: fake name
+ *               name: fake
+ *               surname: name
  *               email: fake@example.com
+ *               phone: 333 444 5566
  *               password: password1
  *               role: user
  *     responses:
@@ -92,6 +99,11 @@ module.exports = router;
  *         schema:
  *           type: string
  *         description: User name
+*       - in: query
+ *         name: Surname
+ *         schema:
+ *           type: string
+ *         description: User surname
  *       - in: query
  *         name: role
  *         schema:
@@ -198,19 +210,30 @@ module.exports = router;
  *             properties:
  *               name:
  *                 type: string
+ *               surname:
+ *                 type: string
  *               email:
  *                 type: string
  *                 format: email
  *                 description: must be unique
+ *               phone:
+ *                 type: string
  *               password:
  *                 type: string
  *                 format: password
  *                 minLength: 8
  *                 description: At least one number and one letter
+ *               annotation:
+ *                 $ref: '#/components/schemas/Annotation'
  *             example:
- *               name: fake name
+ *               name: fake
+ *               surname: name
  *               email: fake@example.com
+ *               phone: 333 444 5566
  *               password: password1
+ *               annotation:
+ *                 quick: ["Quick", "Text"]
+ *                 text: "Long Text"
  *     responses:
  *       "200":
  *         description: OK
