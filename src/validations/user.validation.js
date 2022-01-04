@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { annotationSchema } = require('./annotation.validation');
 const { password, objectId } = require('./custom.validation');
 
 const createUser = {
@@ -40,6 +41,8 @@ const updateUser = {
       name: Joi.string(),
       surname: Joi.string(),
       phone: Joi.string(),
+      role: Joi.string().valid('user', 'backoffice', 'manager'),
+      annotation: annotationSchema,
     })
     .min(1),
 };

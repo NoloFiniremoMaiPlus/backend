@@ -72,6 +72,8 @@ components:
           type: number
         surcharge:
           type: number
+        annotation:
+          $ref: '#/components/schemas/Annotation'
 
     User:
       type: object
@@ -91,19 +93,22 @@ components:
           type: string
           enum: [user, backoffice, manager]
         annotation:
-          type: object
-          properties:
-            quick:
-              type: array
-              items:
-                type: string
-            text:
-              type: string
+          $ref: '#/components/schemas/Annotation'
       example:
         id: 5ebac534954b54139806c112
         email: fake@example.com
         name: fake name
         role: user
+
+    Annotation:
+      type: object
+      properties:
+        quick:
+          type: array
+          items:
+            type: string
+        text:
+          type: string
 
     Token:
       type: object

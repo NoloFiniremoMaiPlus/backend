@@ -213,12 +213,6 @@ module.exports = router;
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - user
- *               - item
- *               - from
- *               - to
- *               - price
  *             properties:
  *               user:
  *                 type: string
@@ -236,6 +230,8 @@ module.exports = router;
  *                 type: number
  *               surcharge:
  *                 type: number
+ *               annotation:
+ *                 $ref: '#/components/schemas/Annotation'
  *             example:
  *               user: user-id
  *               item: item-id
@@ -244,6 +240,9 @@ module.exports = router;
  *               to: 2022-01-07
  *               price: 50
  *               surcharge: 0
+ *               annotation:
+ *                 quick: ["Quick", "Text"]
+ *                 text: "Text"
  *     responses:
  *       "200":
  *         description: OK
