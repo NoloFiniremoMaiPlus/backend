@@ -166,7 +166,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /rental/{id}:
+ * /rentals/{id}:
  *   get:
  *     summary: Get a rental
  *     description: Logged in users can fetch only their own rentals. Only admins can fetch rentals from any user.
