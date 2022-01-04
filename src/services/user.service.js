@@ -79,11 +79,6 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
-const addAnnotation = async (userId, annotationBody) => {
-  const user = await updateUserById(userId, {"annotation" : annotationBody});
-  return user;
-};
-
 module.exports = {
   createUser,
   queryUsers,
@@ -91,5 +86,4 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
-  addAnnotation,
 };

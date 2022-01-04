@@ -34,25 +34,10 @@ const deleteUser = catchAsync(async (req, res) => {
   res.sendStatus(httpStatus.NO_CONTENT);
 });
 
-const getAnnotation = catchAsync(async (req, res) => {
-  const user = await userService.getUserById(req.params.userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
-  res.send(user.annotation)
-});
-
-const addAnnotation = catchAsync(async (req, res) => {
-  const annotation = await userService.addAnnotation(req.params.userId, req.body);
-  res.send(annotation);
-});
-
 module.exports = {
   createUser,
   getUsers,
   getUser,
   updateUser,
   deleteUser,
-  getAnnotation,
-  addAnnotation,
 };
