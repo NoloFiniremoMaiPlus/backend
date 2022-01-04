@@ -41,7 +41,6 @@ const updateUser = {
       name: Joi.string(),
       surname: Joi.string(),
       phone: Joi.string(),
-      role: Joi.string().valid('user', 'backoffice', 'manager'),
       annotation: annotationSchema,
     })
     .min(1),
