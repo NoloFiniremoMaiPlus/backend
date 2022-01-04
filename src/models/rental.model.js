@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 const rentalStates = require('../config/rentalStates');
+const { annotationSchema } = require('./annotation.model');
 
 const rentalSchema = mongoose.Schema(
   {
@@ -38,6 +39,9 @@ const rentalSchema = mongoose.Schema(
     surcharge: {
       type: mongoose.Types.Decimal128,
       min: 0,
+    },
+    annotation: { 
+      type: annotationSchema,
     },
   },
   { timestamps: true, collection: 'rentals' }

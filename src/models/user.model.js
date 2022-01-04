@@ -3,6 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
 const { roles } = require('../config/roles');
+const { annotationSchema } = require('./annotation.model');
 
 const userSchema = mongoose.Schema(
   {
@@ -49,15 +50,7 @@ const userSchema = mongoose.Schema(
       default: 'user',
     },
     annotation: {
-      type:
-        {
-          quick : {
-            type: [String]
-          },
-          text : {
-            type: String,
-          }
-        },
+      type: annotationSchema,
     },
     isEmailVerified: {
       type: Boolean,
