@@ -11,9 +11,16 @@ const addProduct = catchAsync(async (req, res) => {
 });
 
 const getProducts = catchAsync(async (req, res) => {
-    const filter = pick(req.query, ['_id']);
-    if(req.query.hasOwnProperty('text'))
+    const filter = pick(req.query, ['name']);
+    if(req.query.hasOwnProperty('keywords'))
         filter.$text = { $search: req.query.keywords };
+    
+    filter.basePrice = {}
+    if(req.query.priceTo)
+        filter.basePrice.$lt = req.query.priceTo
+    if(req.query.priceFrom)
+        filter.basePrice.$gt = req.query.priceFrom
+
     const options = pick(req.query, ['sortBy', 'limit', 'page']);
     const products = await productService.getProducts(filter, options);
     res.send(products);
