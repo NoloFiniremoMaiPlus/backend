@@ -7,19 +7,21 @@ components:
           type: string
         description:
           type: string
+        image:
+          type: string
+        category:
+          type: string
+        brand: 
+          type: string
         basePrice:
           type: number
         dailyPrice:
           type: number
-        rating:
-          type: number
-        totalRaitings:
-          type: number
-        image:
-          type: string
         state:
           type: string
-          enum: [Mint, Sligthy damaged, Damaged, Destroyed]
+          enum: [Mint, Sligthly damaged, Damaged, Broken]
+        enabled:
+          type: boolean
         availability:
           type: array
           items: 

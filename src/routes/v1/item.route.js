@@ -59,9 +59,19 @@ module.exports = router;
  *           type: string
  *         description: Word in Item's name and/or description
  *       - in: query
+ *         name: category
+ *         schema:
+ *           type: string
+ *         description: Item's Category
+ *       - in: query
+ *         name: brand
+ *         schema:
+ *           type: string
+ *         description: Item Brand
+ *       - in: query
  *         name: state
  *         schema:
- *           type: state
+ *           type: string
  *         description: Item's State
  *       - in: query
  *         name: priceFrom
@@ -151,6 +161,10 @@ module.exports = router;
  *                 type: string
  *               image:
  *                 type: string
+ *               category:
+ *                 type: string
+ *               brand:
+ *                 type: string
  *               basePrice:
  *                 type: number
  *               dailyPrice:
@@ -172,6 +186,8 @@ module.exports = router;
  *               name: "Item"
  *               description: "Item's description"
  *               image: "/path/to/file/"
+ *               category: "Category"
+ *               brand: "PeraPhone"
  *               basePrice: 50
  *               dailyPrice: 10
  *               state: "Mint"
@@ -248,6 +264,10 @@ module.exports = router;
  *                 type: string
  *               image:
  *                 type: string
+ *               category:
+ *                 type: string
+ *               brand:
+ *                 type: string
  *               basePrice:
  *                 type: number
  *               dailyPrice:
@@ -269,6 +289,8 @@ module.exports = router;
  *               name: "Item"
  *               description: "Item's description"
  *               image: "/path/to/file/"
+ *               category: "Category"
+ *               brand: "PeraPhone"
  *               basePrice: 50
  *               dailyPrice: 10
  *               state: "Mint"

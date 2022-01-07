@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 var Float = require('mongoose-float').loadType(mongoose, 2);
 const { toJSON, paginate } = require('./plugins');
+const brands = require('../config/brands');
+const categories = require('../config/categories');
 const itemStates = require('../config/itemStates');
 
 const itemSchema = mongoose.Schema(
@@ -19,9 +21,17 @@ const itemSchema = mongoose.Schema(
     * - category
     * - brand
     */
-   image: {
-     type: String,
-   },
+    image: {
+      type: String,
+    },
+    category: {
+      type: String,
+      enum: categories,
+    },
+    brand: {
+      type: String,
+      enum: brands,
+    },
     basePrice: {
       type: Float,
       required: true,

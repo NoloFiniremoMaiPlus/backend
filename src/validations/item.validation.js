@@ -1,11 +1,15 @@
 const Joi = require('joi');
 const { objectId } = require('./custom.validation');
-const itemStates = require('../config/itemStates')
+const brands = require('../config/brands');
+const categories = require('../config/categories');
+const itemStates = require('../config/itemStates');
 
 const getItems = {
   query: Joi.object().keys({
     name: Joi.string().allow(null, ''),
     keywords: Joi.string().allow(null, ''),
+    category: Joi.string().valid(...categories),
+    brand: Joi.string().valid(...brands),
     //state: Joi.array().items(Joi.string().valid(...itemStates)),
     state: Joi.string().valid(...itemStates),
     // TODO change this to convention
@@ -24,6 +28,8 @@ const addItem = {
     name: Joi.string().required(),
     description: Joi.string(),
     image: Joi.string().allow(null, '').default(null),
+    category: Joi.string().valid(...categories).required(),
+    brand: Joi.string().valid(...brands).required(),
     basePrice: Joi.number(),
 		dailyPrice: Joi.number(),
     state: Joi.string().valid(...itemStates).default(itemStates[0]),
@@ -49,6 +55,8 @@ const updateItem = {
     name: Joi.string(),
     description: Joi.string(),
     image: Joi.string().allow(null, ''),
+    category: Joi.string().valid(...categories),
+    brand: Joi.string().valid(...brands),
     basePrice: Joi.number(),
 		dailyPrice: Joi.number(),
     state: Joi.string().valid(...itemStates),
