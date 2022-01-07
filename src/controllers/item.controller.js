@@ -3,6 +3,8 @@ const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
 const { itemService } = require('../services');
 const ApiError = require('../utils/ApiError');
+const categories = require('../config/categories');
+const brands = require('../config/brands');
 
 
 const getItems = catchAsync(async (req, res) => {
@@ -52,6 +54,14 @@ const deleteItem = catchAsync(async (req, res) => {
     res.sendStatus(httpStatus.NO_CONTENT);
 });
 
+const getCategories = (req,res) => {
+    res.status(httpStatus.OK).send(categories)
+}
+
+const getBrands = (req,res) => {
+    res.status(httpStatus.OK).send(brands)
+}
+
 const enableItem = catchAsync(async (req, res) => {
     const item = await itemService.updateItem(req.params.itemId, {"enabled" : "true"});
     res.status(httpStatus.OK).send(item);
@@ -68,6 +78,8 @@ module.exports = {
     getItem,
     updateItem,
     deleteItem,
+    getCategories,
+    getBrands,
     enableItem,
     disableItem,
 }

@@ -11,15 +11,18 @@ router
   .get(auth('getItems'), validate(itemValidation.getItems), itemController.getItems)
   .post(auth('manageItems'), validate(itemValidation.addItem), itemController.addItem)
 
+
 router
-  .route('/:itemId')
-  .get(auth('getItems'), validate(itemValidation.getItem), itemController.getItem)
-  .patch(auth('manageItems'), validate(itemValidation.updateItem), itemController.updateItem)
-  .delete(auth('manageItems'), validate(itemValidation.deleteItem), itemController.deleteItem);
+  .route('/categories')
+  .get(itemController.getCategories);
+  
 
-
+router
+  .route('/brands')
+  .get(itemController.getBrands);
+  
 // TODO EnableItem
-
+  
 /* TODO
 router
   .route('/toggleFavourite/:itemId')
@@ -28,6 +31,12 @@ router
   .route('/toggleNotifications/:itemId')
   .post(auth('rentItems'), validate(itemValidation.toggleItemNotifications), toggleItemNotifications)
 */
+
+router
+  .route('/:itemId')
+  .get(auth('getItems'), validate(itemValidation.getItem), itemController.getItem)
+  .patch(auth('manageItems'), validate(itemValidation.updateItem), itemController.updateItem)
+  .delete(auth('manageItems'), validate(itemValidation.deleteItem), itemController.deleteItem);
 
 module.exports = router;
 
@@ -332,4 +341,44 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *       "404":
  *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /items/categories:
+ *   get:
+ *     summary: Get every item category
+ *     description: Fetch all categories.
+ *     tags: [Item]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ */
+
+/**
+ * @swagger
+ * /items/brands:
+ *   get:
+ *     summary: Get every item brand
+ *     description: Fetch all brands.
+ *     tags: [Item]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
  */
