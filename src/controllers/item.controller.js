@@ -6,17 +6,32 @@ const ApiError = require('../utils/ApiError');
 
 
 const getItems = catchAsync(async (req, res) => {
-    const filter = pick(req.query, ['_id']);
-    if(req.query.hasOwnProperty('text'))
+    const filter = pick(req.query, ['name','state']);
+    if(req.query.hasOwnProperty('keywords'))
         filter.$text = { $search: req.query.keywords };
+
+    if(req.query.priceTo || req.query.priceTo){
+        filter.basePrice = {};
+        if(req.query.priceTo)
+            filter.basePrice.$lt = req.query.priceTo;
+        if(req.query.priceFrom)
+            filter.basePrice.$gt = req.query.priceFrom;
+    }
+
+    // TODO cerco più 'state' possibili
 
     // User can't see hidden items
     if(req.role === 'user')
-        filter.enabled = true;
+    filter.enabled = true;
 
     const options = pick(req.query, ['sortBy', 'limit', 'page']);
     const items = await itemService.getItems(filter, options);
     res.send(items);
+});
+
+const addItem = catchAsync(async (req, res) => {
+    const item = await itemService.addItem(req.body);
+    res.status(httpStatus.CREATED).send(item);
 });
 
 const getItem = catchAsync(async (req, res) => {
@@ -25,11 +40,6 @@ const getItem = catchAsync(async (req, res) => {
         throw new ApiError(httpStatus.NOT_FOUND, 'Item not found');
     }
     res.send(item);
-});
-
-const addItem = catchAsync(async (req, res) => {
-    const item = await itemService.addItem(req.body);
-    res.status(httpStatus.CREATED).send(item);
 });
 
 const updateItem = catchAsync(async (req, res) => {
@@ -54,8 +64,8 @@ const disableItem = catchAsync(async (req, res) => {
 
 module.exports = {
     getItems,
-    getItem,
     addItem,
+    getItem,
     updateItem,
     deleteItem,
     enableItem,

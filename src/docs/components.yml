@@ -1,6 +1,6 @@
 components:
   schemas:
-    Product:
+    Item:
       type: object
       properties:
         name:
@@ -15,26 +15,8 @@ components:
           type: number
         totalRaitings:
           type: number
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Item'
-
-    Item:
-      type: object
-      properties:
-        id:
+        image:
           type: string
-        name:
-          type: string
-        description:
-          type: string
-        frontImage:
-          type: string
-        otherImages:
-          type: array
-          items: 
-            type: string
         state:
           type: string
           enum: [Mint, Sligthy damaged, Damaged, Destroyed]

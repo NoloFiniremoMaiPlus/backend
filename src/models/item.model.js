@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var Float = require('mongoose-float').loadType(mongoose, 2);
 const { toJSON, paginate } = require('./plugins');
 const itemStates = require('../config/itemStates');
 
@@ -14,23 +15,36 @@ const itemSchema = mongoose.Schema(
       required: false,
       trim: true,
     },
-    frontImage: {
-      type: String,
+    /* TODO
+    * - category
+    * - brand
+    */
+   image: {
+     type: String,
+   },
+    basePrice: {
+      type: Float,
+      required: true,
     },
-    otherImages: {
-      type: [String],
+    dailyPrice: {
+      type: Float,
+      required: true,
     },
     state: {
       type: String,
       enum: itemStates,
       default: 'Mint',
     },
+    // TODO
+	  /* review: [{type: mongoose.Types.ObjectId,
+                  ref: "Review"}], */ 
+    /* discounts: { type: [discountSchema], },*/
     enabled: {
       type: Boolean,
       default: true,
     },
     availability: {
-      type: [
+      type: [mongoose.Schema(
         {
           from: {
             type: Date,
@@ -39,12 +53,13 @@ const itemSchema = mongoose.Schema(
           to: {
             type: Date,
           },
-        },
+        }, { _id: false })
       ],
     },
   },
   {
     timestamps: true,
+    toJSON: { getters: true }
   }
 );
 
@@ -52,16 +67,7 @@ const itemSchema = mongoose.Schema(
 itemSchema.plugin(toJSON);
 itemSchema.plugin(paginate);
 
-/**
- * Check if Item Name is taken
- * @param {string} name - The item's name
- * @param {ObjectId} [excludeItemId] - The id of the item to be excluded
- * @returns {Promise<boolean>}
- */
-itemSchema.statics.isNameTaken = async function (name, excludeItemId) {
-  const item = await this.findOne({ name, _id: { $ne: excludeItemId } });
-  return !!item;
-};
+itemSchema.index({name: 'text', description: 'text'});
 
 /**
  * @typedef Item

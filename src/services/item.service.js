@@ -4,14 +4,15 @@ const { Item } = require('../models');
 const catchAsync = require('../utils/catchAsync');
 const ApiError = require('../utils/ApiError');
 
-const addItem = async (itemBody) => {
-    return Item.create(itemBody);
-};
 
 const getItems = async (filter, options) => {
     const items = await Item.paginate(filter, options);
     return items;
 }
+
+const addItem = async (itemBody) => {
+    return Item.create(itemBody);
+};
 
 const getItemById = async (itemId) => {
     return Item.findById(itemId);
@@ -21,11 +22,9 @@ const updateItem = async (itemId, updateBody) => {
     
     if(!(await getItemById(itemId)))
         throw new ApiError(httpStatus.NOT_FOUND, 'Item not found');
-    
-    if(updateBody.name && (await Item.isNameTaken(updateBody.name, itemId)))
-        throw new ApiError(httpStatus.CONFLICT, 'Name already exists');
 
     Item.findByIdAndUpdate(itemId, updateBody, {new: true}, (err, result) => {
+        // TODO Change error type to InternalError or smth
         if(err) throw new ApiError(httpStatus.NOT_FOUND, 'Item not found');
         return result;
     });
@@ -44,8 +43,8 @@ const deleteItemById = async (itemId) => {
 };
 
 module.exports = {
-    addItem,
     getItems,
+    addItem,
     getItemById,
     updateItem,
     deleteItemById,

@@ -18,16 +18,9 @@ router
   .delete(auth('manageItems'), validate(itemValidation.deleteItem), itemController.deleteItem);
 
 
-// TODO renderlo toggleEnableItem ?
-router
-  .route('/disableItem/:itemId')
-  .post(auth('manageItems'), validate(itemValidation.disableItem), itemController.disableItem);
+// TODO EnableItem
 
-router
-  .route('/enableItem/:itemId')
-  .post(auth('manageItems'), validate(itemValidation.disableItem), itemController.enableItem);
-
-/* TODO Spostare in product
+/* TODO
 router
   .route('/toggleFavourite/:itemId')
   .post(auth('rentItems'), validate(itemValidation.toggleFavouriteItem), toggleFavouriteItem)
@@ -66,15 +59,20 @@ module.exports = router;
  *           type: string
  *         description: Word in Item's name and/or description
  *       - in: query
- *         name: productId
- *         schema:
- *           type: string
- *         description: Item's Product ID
- *       - in: query
  *         name: state
  *         schema:
  *           type: state
  *         description: Item's State
+ *       - in: query
+ *         name: priceFrom
+ *         schema:
+ *           type: number
+ *         description: Item with price greater than
+ *       - in: query
+ *         name: priceTo
+ *         schema:
+ *           type: number
+ *         description: Item with price lesser than 
  *       - in: query
  *         name: dateFrom
  *         schema:
@@ -96,7 +94,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of users
+ *         description: Maximum number of item
  *       - in: query
  *         name: page
  *         schema:
@@ -151,12 +149,16 @@ module.exports = router;
  *                 type: string
  *               description:
  *                 type: string
- *               frontImage:
+ *               image:
  *                 type: string
- *               otherImages:
- *                 type: string
+ *               basePrice:
+ *                 type: number
+ *               dailyPrice:
+ *                 type: number
  *               state:
  *                 type: string
+ *               enabled:
+ *                 type: boolean
  *               availability:
  *                 type: object
  *                 properties: 
@@ -166,15 +168,15 @@ module.exports = router;
  *                   to:
  *                     type: string
  *                     format: date
- *               enabled:
- *                 type: boolean
  *             example:
  *               name: "Item"
  *               description: "Item's description"
- *               frontImage: "/path/to/file/"
+ *               image: "/path/to/file/"
+ *               basePrice: 50
+ *               dailyPrice: 10
  *               state: "Mint"
- *               availability: [{"from" : "2021-12-15", "to" : "2021-12-16"}]
  *               enabled: true
+ *               availability: [{"from" : "2021-12-15", "to" : "2021-12-16"}]
  *     responses:
  *       "201":
  *         description: Created
@@ -244,12 +246,16 @@ module.exports = router;
  *                 type: string
  *               description:
  *                 type: string
- *               frontImage:
+ *               image:
  *                 type: string
- *               otherImages:
- *                 type: string
+ *               basePrice:
+ *                 type: number
+ *               dailyPrice:
+ *                 type: number
  *               state:
  *                 type: string
+ *               enabled:
+ *                 type: boolean
  *               availability:
  *                 type: object
  *                 properties: 
@@ -259,15 +265,15 @@ module.exports = router;
  *                   to:
  *                     type: string
  *                     format: date
- *               enabled:
- *                 type: boolean
  *             example:
  *               name: "Item"
  *               description: "Item's description"
- *               frontImage: "/path/to/file/"
+ *               image: "/path/to/file/"
+ *               basePrice: 50
+ *               dailyPrice: 10
  *               state: "Mint"
- *               availability: [{"from" : "2021-12-15", "to" : "2021-12-16"}]
  *               enabled: true
+ *               availability: [{"from" : "2021-12-15", "to" : "2021-12-16"}]
  *     responses:
  *       "200":
  *         description: OK
