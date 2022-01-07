@@ -4,10 +4,11 @@ const { password, objectId } = require('./custom.validation');
 
 const createUser = {
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().custom(password),
     name: Joi.string().required(),
     surname: Joi.string().required(),
+    username: Joi.string().required(),
+    email: Joi.string().required().email(),
+    password: Joi.string().required().custom(password),
     phone: Joi.string(),
     role: Joi.string().required().valid('user', 'backoffice', 'manager'),
   }),
@@ -17,6 +18,7 @@ const getUsers = {
   query: Joi.object().keys({
     name: Joi.string(),
     surname: Joi.string(),
+    username: Joi.string(),
     role: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
@@ -36,10 +38,11 @@ const updateUser = {
   }),
   body: Joi.object()
     .keys({
-      email: Joi.string().email(),
-      password: Joi.string().custom(password),
       name: Joi.string(),
       surname: Joi.string(),
+      username: Joi.string().required(),
+      email: Joi.string().email(),
+      password: Joi.string().custom(password),
       phone: Joi.string(),
       annotation: annotationSchema,
     })

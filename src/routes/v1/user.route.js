@@ -1,3 +1,4 @@
+
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
@@ -9,7 +10,7 @@ const router = express.Router();
 router
   .route('/')
   .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers)
-  .post(/*auth('manageUsers'),*/ validate(userValidation.createUser), userController.createUser);
+  .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser);
 
 router
   .route('/:userId')
@@ -44,6 +45,7 @@ module.exports = router;
  *             required:
  *               - name
  *               - surname
+ *               - username
  *               - email
  *               - password
  *               - role
@@ -52,6 +54,9 @@ module.exports = router;
  *                 type: string
  *               surname:
  *                 type: string
+ *               username:
+ *                 type: string
+ *                 description: must be unique
  *               email:
  *                 type: string
  *                 format: email
@@ -69,6 +74,7 @@ module.exports = router;
  *             example:
  *               name: fake
  *               surname: name
+ *               username: fakeUser1
  *               email: fake@example.com
  *               phone: 333 444 5566
  *               password: password1
@@ -99,11 +105,15 @@ module.exports = router;
  *         schema:
  *           type: string
  *         description: User name
-*       - in: query
- *         name: Surname
+ *       - in: query
+ *         name: surname
  *         schema:
  *           type: string
  *         description: User surname
+ *       - in: query
+ *         name: username
+ *         schema:
+ *           type: string
  *       - in: query
  *         name: role
  *         schema:
@@ -212,6 +222,9 @@ module.exports = router;
  *                 type: string
  *               surname:
  *                 type: string
+ *               username:
+ *                 type: string
+ *                 description: must be unique
  *               email:
  *                 type: string
  *                 format: email
@@ -228,6 +241,7 @@ module.exports = router;
  *             example:
  *               name: fake
  *               surname: name
+ *               username: fakeUser1
  *               email: fake@example.com
  *               phone: 333 444 5566
  *               password: password1

@@ -64,12 +64,14 @@ components:
       properties:
         id:
           type: string
-        email:
-          type: string
-          format: email
         name:
           type: string
         surname:
+          type: string
+        email:
+          type: string
+          format: email
+        username:
           type: string
         phone:
           type: string
