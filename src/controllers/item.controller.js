@@ -8,7 +8,7 @@ const brands = require('../config/brands');
 
 
 const getItems = catchAsync(async (req, res) => {
-    const filter = pick(req.query, ['name','state']);
+    const filter = pick(req.query, ['name', 'resp', 'state']);
     if(req.query.hasOwnProperty('keywords'))
         filter.$text = { $search: req.query.keywords };
 
@@ -37,7 +37,7 @@ const addItem = catchAsync(async (req, res) => {
 });
 
 const getItem = catchAsync(async (req, res) => {
-     const item = await itemService.getItemById(req.params.itemId);
+    const item = await itemService.getItemById(req.params.itemId);
     if (!item) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Item not found');
     }

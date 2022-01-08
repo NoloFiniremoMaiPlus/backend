@@ -10,17 +10,13 @@ const itemSchema = mongoose.Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
       trim: true,
     },
     description: {
       type: String,
-      required: false,
       trim: true,
     },
-    /* TODO
-    * - category
-    * - brand
-    */
     image: {
       type: String,
     },
@@ -32,6 +28,16 @@ const itemSchema = mongoose.Schema(
       type: String,
       enum: brands,
     },
+    resp: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    state: {
+      type: String,
+      enum: itemStates,
+      default: 'Mint',
+    },
     basePrice: {
       type: Float,
       required: true,
@@ -40,10 +46,8 @@ const itemSchema = mongoose.Schema(
       type: Float,
       required: true,
     },
-    state: {
-      type: String,
-      enum: itemStates,
-      default: 'Mint',
+    discount: {
+      type: Number,
     },
     // TODO
 	  /* review: [{type: mongoose.Types.ObjectId,
