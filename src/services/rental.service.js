@@ -31,6 +31,11 @@ const updateRentalById = async (rentalId, updateBody) => {
     if (!rental) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Rental not found');
     }
+
+    // If it ended, add loyalty points to User
+    if(rental.state == "Completed")
+        userService.updateUserById(rental.user, {$inc : {loyalty: rental.loyalty} });
+
     return rental;
 };
   
