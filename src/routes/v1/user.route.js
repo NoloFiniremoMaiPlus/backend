@@ -48,6 +48,7 @@ module.exports = router;
  *               - email
  *               - password
  *               - role
+ *               - loyalty
  *             properties:
  *               name:
  *                 type: string
@@ -68,8 +69,11 @@ module.exports = router;
  *                 minLength: 8
  *                 description: At least one number and one letter
  *               role:
- *                  type: string
- *                  enum: [user, backoffice, manager]
+ *                 type: string
+ *                 enum: [user, backoffice, manager]
+ *               loyalty:
+ *                 type: number
+ *                 description: Loyalty Points collected
  *             example:
  *               name: fake
  *               surname: name
@@ -78,6 +82,7 @@ module.exports = router;
  *               phone: 333 444 5566
  *               password: password1
  *               role: user
+ *               loyalty: 10
  *     responses:
  *       "201":
  *         description: Created
@@ -235,6 +240,9 @@ module.exports = router;
  *                 format: password
  *                 minLength: 8
  *                 description: At least one number and one letter
+ *               loyalty:
+ *                 type: number
+ *                 description: Loyalty Points collected
  *               annotation:
  *                 $ref: '#/components/schemas/Annotation'
  *             example:
@@ -244,6 +252,7 @@ module.exports = router;
  *               email: fake@example.com
  *               phone: 333 444 5566
  *               password: password1
+ *               loyalty: 10
  *               annotation:
  *                 quick: ["Quick", "Text"]
  *                 text: "Long Text"

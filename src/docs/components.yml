@@ -13,13 +13,17 @@ components:
           type: string
         brand: 
           type: string
+        resp:
+          type: string
+        state:
+          type: string
+          enum: [Mint, Sligthly damaged, Damaged, Broken]
         basePrice:
           type: number
         dailyPrice:
           type: number
-        state:
-          type: string
-          enum: [Mint, Sligthly damaged, Damaged, Broken]
+        discount:
+          type: number
         enabled:
           type: boolean
         availability:
@@ -91,6 +95,9 @@ components:
         role:
           type: string
           enum: [user, backoffice, manager]
+        loyalty:
+          type: number
+          description: Loyalty points collected
         annotation:
           $ref: '#/components/schemas/Annotation'
       example:

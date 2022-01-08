@@ -72,6 +72,11 @@ module.exports = router;
  *           type: string
  *         description: Item Brand
  *       - in: query
+ *         name: resp
+ *         schema:
+ *           type: string
+ *         description: Backoffice responsible for this item
+ *       - in: query
  *         name: state
  *         schema:
  *           type: string
@@ -157,6 +162,9 @@ module.exports = router;
  *             type: object
  *             required:
  *               - name
+ *               - resp
+ *               - basePrice
+ *               - dailyPrice
  *             properties:
  *               name:
  *                 type: string
@@ -168,12 +176,16 @@ module.exports = router;
  *                 type: string
  *               brand:
  *                 type: string
+ *               resp:
+ *                 type: string
+ *               state:
+ *                 type: string
  *               basePrice:
  *                 type: number
  *               dailyPrice:
  *                 type: number
- *               state:
- *                 type: string
+ *               discount:
+ *                 type: number
  *               enabled:
  *                 type: boolean
  *               availability:
@@ -191,9 +203,11 @@ module.exports = router;
  *               image: "/path/to/file/"
  *               category: "Category"
  *               brand: "PeraPhone"
+ *               resp: "user-id"
+ *               state: "Mint"
  *               basePrice: 50
  *               dailyPrice: 10
- *               state: "Mint"
+ *               discount: 20
  *               enabled: true
  *               availability: [{"from" : "2021-12-15", "to" : "2021-12-16"}]
  *     responses:
@@ -259,7 +273,6 @@ module.exports = router;
  *           schema:
  *             type: object
  *             required:
- *               - name
  *             properties:
  *               name:
  *                 type: string
@@ -271,12 +284,16 @@ module.exports = router;
  *                 type: string
  *               brand:
  *                 type: string
+ *               resp:
+ *                 type: string
+ *               state:
+ *                 type: string
  *               basePrice:
  *                 type: number
  *               dailyPrice:
  *                 type: number
- *               state:
- *                 type: string
+ *               discount:
+ *                 type: number
  *               enabled:
  *                 type: boolean
  *               availability:
@@ -294,9 +311,11 @@ module.exports = router;
  *               image: "/path/to/file/"
  *               category: "Category"
  *               brand: "PeraPhone"
+ *               resp: "user-id"
+ *               state: "Mint"
  *               basePrice: 50
  *               dailyPrice: 10
- *               state: "Mint"
+ *               discount: 20
  *               enabled: true
  *               availability: [{"from" : "2021-12-15", "to" : "2021-12-16"}]
  *     responses:
