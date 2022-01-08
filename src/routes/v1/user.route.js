@@ -1,4 +1,3 @@
-
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
@@ -10,7 +9,7 @@ const router = express.Router();
 router
   .route('/')
   .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers)
-  .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser);
+  .post(/*auth('manageUsers'),*/ validate(userValidation.createUser), userController.createUser);
 
 router
   .route('/:userId')

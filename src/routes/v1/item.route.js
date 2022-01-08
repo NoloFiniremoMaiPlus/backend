@@ -9,20 +9,14 @@ const router = express.Router();
 router
   .route('/')
   .get(auth('getItems'), validate(itemValidation.getItems), itemController.getItems)
-  .post(auth('manageItems'), validate(itemValidation.addItem), itemController.addItem)
+  .post(/*auth('manageItems'),*/ validate(itemValidation.addItem), itemController.addItem);
 
+router.route('/categories').get(itemController.getCategories);
 
-router
-  .route('/categories')
-  .get(itemController.getCategories);
-  
+router.route('/brands').get(itemController.getBrands);
 
-router
-  .route('/brands')
-  .get(itemController.getBrands);
-  
 // TODO EnableItem
-  
+
 /* TODO
 router
   .route('/toggleFavourite/:itemId')
@@ -91,7 +85,7 @@ module.exports = router;
  *         name: priceTo
  *         schema:
  *           type: number
- *         description: Item with price lesser than 
+ *         description: Item with price lesser than
  *       - in: query
  *         name: dateFrom
  *         schema:
@@ -184,7 +178,7 @@ module.exports = router;
  *                 type: boolean
  *               availability:
  *                 type: object
- *                 properties: 
+ *                 properties:
  *                   from:
  *                     type: string
  *                     format: date
@@ -287,7 +281,7 @@ module.exports = router;
  *                 type: boolean
  *               availability:
  *                 type: object
- *                 properties: 
+ *                 properties:
  *                   from:
  *                     type: string
  *                     format: date
