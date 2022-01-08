@@ -4,7 +4,7 @@ const userService = require('./user.service');
 const itemService = require('./item.service');
 const ApiError = require('../utils/ApiError');
 
- const createRental = async (rentalBody) => {
+const createRental = async (rentalBody) => {
     userService.updateUserById(rentalBody.user, {$inc : {loyalty: -rentalBody.loyalty} });
 
     // Assing resp from item
