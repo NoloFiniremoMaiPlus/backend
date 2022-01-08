@@ -56,6 +56,10 @@ const userSchema = mongoose.Schema(
       enum: roles,
       default: 'user',
     },
+    loyalty: {
+      type: Number,
+      min: 0,
+    },
     annotation: {
       type: annotationSchema,
     },

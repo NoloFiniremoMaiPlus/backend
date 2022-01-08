@@ -95,6 +95,9 @@ components:
         role:
           type: string
           enum: [user, backoffice, manager]
+        loyalty:
+          type: number
+          description: Loyalty points collected
         annotation:
           $ref: '#/components/schemas/Annotation'
       example:
