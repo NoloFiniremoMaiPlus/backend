@@ -5,8 +5,8 @@ const { rentalService } = require('../services');
 const ApiError = require('../utils/ApiError');
 
 const createRental = catchAsync(async (req, res) => {
-    
-    if(req.user.role == "manager"){
+
+    if(req.user.role == "user"){
         // State Booked
         delete req.body.state;
         // No return date
