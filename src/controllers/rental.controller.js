@@ -10,7 +10,10 @@ const createRental = catchAsync(async (req, res) => {
 });
   
 const getRentals = catchAsync(async (req, res) => {
-    const filter = pick(req.query, ['user', 'item', 'state', 'from', 'to']);
+    const filter = pick(req.query, ['user', 'resp', 'item', 'state', 'from', 'to']);
+
+    // add searching for from and to
+
     const options = pick(req.query, ['sortBy', 'limit', 'page']);
     const result = await rentalService.queryRentals(filter, options);
     res.send(result);

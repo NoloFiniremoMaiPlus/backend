@@ -9,11 +9,19 @@ const rentalSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'User',
       required: true,
+      autopopulate: true
+    },
+    resp: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
+      required: true,
+      autopopulate: true
     },
     item: {
       type: mongoose.Types.ObjectId,
       ref: 'Item',
       required: true,
+      autopopulate: true
     },
     state: {
       type: String,
@@ -29,6 +37,9 @@ const rentalSchema = mongoose.Schema(
     to: {
       type: Date,
     },
+    return: {
+      type: Date,
+    },
 
     // Price Fields
     price: {
@@ -36,10 +47,19 @@ const rentalSchema = mongoose.Schema(
       min: 0,
       required: true,
     },
+    discount: {
+      type: mongoose.Types.Decimal128,
+      min: 0,
+    },
+    loyalty: {
+      type: Number,
+      min: 0,
+    },
     surcharge: {
       type: mongoose.Types.Decimal128,
       min: 0,
     },
+
     annotation: { 
       type: annotationSchema,
     },
@@ -50,6 +70,7 @@ const rentalSchema = mongoose.Schema(
 // add plugin that converts mongoose to json
 rentalSchema.plugin(toJSON);
 rentalSchema.plugin(paginate);
+rentalSchema.plugin(require('mongoose-autopopulate'));
 
 /**
  * @typedef Rental

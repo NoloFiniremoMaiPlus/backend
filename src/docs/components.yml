@@ -41,6 +41,8 @@ components:
           type: string
         user:
           type: string
+        resp:
+          type: string
         item:
           type: string
         state:
@@ -52,10 +54,21 @@ components:
         to:
           type: string
           format: date
+        return:
+          type: string
+          format: date
         price:
           type: number
+          description: e.g. 100.50
+        discount:
+          type: number
+          description: e.g. 100.50
+        loyalty:
+          type: number
+          description: points used
         surcharge:
           type: number
+          description: e.g. 100.50
         annotation:
           $ref: '#/components/schemas/Annotation'
 

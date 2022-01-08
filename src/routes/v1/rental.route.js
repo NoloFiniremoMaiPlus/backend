@@ -42,6 +42,11 @@ module.exports = router;
  *           type: string
  *         description: User id
  *       - in: query
+ *         name: resp
+ *         schema:
+ *           type: string
+ *         description: Backoffice id responsible for this rental
+ *       - in: query
  *         name: item
  *         schema:
  *           type: string
@@ -122,12 +127,15 @@ module.exports = router;
  *             type: object
  *             required:
  *               - user
+ *               - resp
  *               - item
  *               - from
  *               - to
  *               - price
  *             properties:
  *               user:
+ *                 type: string
+ *               resp:
  *                 type: string
  *               item:
  *                 type: string
@@ -141,15 +149,22 @@ module.exports = router;
  *                 format: date
  *               price:
  *                 type: number
+ *               discount:
+ *                 type: number
+ *               loyalty:
+ *                 type: number
  *               surcharge:
  *                 type: number
  *             example:
  *               user: user-id
+ *               resp: resp-id
  *               item: item-id
  *               state: "Booked"
  *               from: 2022-01-01
  *               to: 2022-01-07
  *               price: 50
+ *               discount: 5.5
+ *               loyalty: 100
  *               surcharge: 0
  *     responses:
  *       "201":
@@ -216,6 +231,8 @@ module.exports = router;
  *             properties:
  *               user:
  *                 type: string
+ *               resp:
+ *                 type: string
  *               item:
  *                 type: string
  *               state:
@@ -226,7 +243,14 @@ module.exports = router;
  *               to:
  *                 type: string
  *                 format: date
+ *               return:
+ *                 type: string
+ *                 format: date
  *               price:
+ *                 type: number
+ *               discount:
+ *                 type: number
+ *               loyalty:
  *                 type: number
  *               surcharge:
  *                 type: number
@@ -234,11 +258,15 @@ module.exports = router;
  *                 $ref: '#/components/schemas/Annotation'
  *             example:
  *               user: user-id
+ *               resp: resp-id
  *               item: item-id
  *               state: "Booked"
  *               from: 2022-01-01
  *               to: 2022-01-07
+ *               return: 2022-01-14
  *               price: 50
+ *               discount: 5.5
+ *               loyalty: 100
  *               surcharge: 0
  *               annotation:
  *                 quick: ["Quick", "Text"]
