@@ -20,7 +20,6 @@ const getRentals = {
 const createRental = {
   body: Joi.object().keys({
     user: Joi.string().custom(objectId).required(),
-    resp: Joi.string().custom(objectId).required(),
     item: Joi.string().custom(objectId).required(),
     state: Joi.string().valid(...rentalStates),
     from: Joi.date().iso().required(),
@@ -53,7 +52,6 @@ const updateRental = {
     return: Joi.date().iso().min(Joi.ref('from')),
     price: Joi.number().min(0),
     discount: Joi.number().min(0),
-    loyalty: Joi.number().min(0),
     surcharge: Joi.number().min(0),
     annotation: annotationSchema,
   })

@@ -9,7 +9,7 @@ const router = express.Router();
 router
     .route('/')
     .get(/*auth('getUsers'),*/ validate(rentalValidation.getRentals), rentalController.getRentals)
-    .post(/*auth(),*/ validate(rentalValidation.createRental), rentalController.createRental);
+    .post(auth(), validate(rentalValidation.createRental), rentalController.createRental);
 
 router
     .route('/:rentalId')
@@ -135,12 +135,12 @@ module.exports = router;
  *             properties:
  *               user:
  *                 type: string
- *               resp:
- *                 type: string
+ *                 description: User can assing rent to themself. Admin can do whatever they want
  *               item:
  *                 type: string
  *               state:
  *                 type: string
+ *                 description: User can only "book" rental. Admin can do whatever they want
  *               from:
  *                 type: string
  *                 format: date
@@ -150,17 +150,18 @@ module.exports = router;
  *               return:
  *                 type: string
  *                 format: date
+ *                 description: User cannot use this field, only admin.
  *               price:
  *                 type: number
  *               discount:
  *                 type: number
  *               loyalty:
  *                 type: number
+ *                 description: must be greater or equal to current User points
  *               surcharge:
  *                 type: number
  *             example:
  *               user: user-id
- *               resp: resp-id
  *               item: item-id
  *               state: "Booked"
  *               from: 2022-01-01
@@ -254,8 +255,6 @@ module.exports = router;
  *                 type: number
  *               discount:
  *                 type: number
- *               loyalty:
- *                 type: number
  *               surcharge:
  *                 type: number
  *               annotation:
@@ -270,7 +269,6 @@ module.exports = router;
  *               return: 2022-01-14
  *               price: 50
  *               discount: 5.5
- *               loyalty: 100
  *               surcharge: 0
  *               annotation:
  *                 quick: ["Quick", "Text"]

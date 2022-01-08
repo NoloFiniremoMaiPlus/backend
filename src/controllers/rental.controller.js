@@ -5,6 +5,20 @@ const { rentalService } = require('../services');
 const ApiError = require('../utils/ApiError');
 
 const createRental = catchAsync(async (req, res) => {
+    
+    if(req.user.role == "manager"){
+        // State Booked
+        delete req.body.state;
+        // No return date
+        delete req.body.return;
+
+        if(req.user.id != req.body.user)
+            throw new ApiError(httpStatus.FORBIDDEN, "Cannot rent an item for another user");
+    }
+
+    if(req.user.loyalty < req.body.loyalty)
+        throw new ApiError(httpStatus.CONFLICT, "Not enough loyalty points");
+
     const rental = await rentalService.createRental(req.body);
     res.status(httpStatus.CREATED).send(rental);
 });
