@@ -8,9 +8,10 @@ const createUser = {
     surname: Joi.string().required(),
     username: Joi.string().required(),
     email: Joi.string().required().email(),
-    password: Joi.string().required().custom(password),
     phone: Joi.string(),
+    password: Joi.string().required().custom(password),
     role: Joi.string().required().valid('user', 'backoffice', 'manager'),
+    loyalty: Joi.number().min(0),
   }),
 };
 
@@ -42,8 +43,9 @@ const updateUser = {
       surname: Joi.string(),
       username: Joi.string(),
       email: Joi.string().email(),
-      password: Joi.string().custom(password),
       phone: Joi.string(),
+      password: Joi.string().custom(password),
+      loyalty: Joi.number().min(0),
       annotation: annotationSchema,
     })
     .min(1),

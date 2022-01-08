@@ -48,7 +48,6 @@ module.exports = router;
  *               - email
  *               - password
  *               - role
- *               - loyalty
  *             properties:
  *               name:
  *                 type: string
