@@ -42,7 +42,7 @@ const addItem = {
       to: Joi.date().iso().min(Joi.ref('from')) // min is used as >=
     }),
   }),
-}
+};
 
 const getItem = {
   params: Joi.object().keys({
@@ -71,13 +71,13 @@ const updateItem = {
       to: Joi.date().iso().min(Joi.ref('from')) // min is used as >=
     }),
   }).min(1),
-}
+};
 
 const deleteItem = {
   params: Joi.object().keys({
     itemId: Joi.string().custom(objectId),
   }),
-}
+};
 
 module.exports = {
   addItem,

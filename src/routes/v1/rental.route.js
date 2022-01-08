@@ -147,6 +147,9 @@ module.exports = router;
  *               to:
  *                 type: string
  *                 format: date
+ *               return:
+ *                 type: string
+ *                 format: date
  *               price:
  *                 type: number
  *               discount:
@@ -162,6 +165,7 @@ module.exports = router;
  *               state: "Booked"
  *               from: 2022-01-01
  *               to: 2022-01-07
+ *               return: 20220-01-14
  *               price: 50
  *               discount: 5.5
  *               loyalty: 100

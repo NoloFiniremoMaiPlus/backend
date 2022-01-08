@@ -11,9 +11,13 @@ router
   .get(auth('getItems'), validate(itemValidation.getItems), itemController.getItems)
   .post(/*auth('manageItems'),*/ validate(itemValidation.addItem), itemController.addItem);
 
-router.route('/categories').get(itemController.getCategories);
+router
+  .route('/categories')
+  .get(itemController.getCategories);
 
-router.route('/brands').get(itemController.getBrands);
+router
+  .route('/brands')
+  .get(itemController.getBrands);
 
 // TODO EnableItem
 
