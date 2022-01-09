@@ -16,9 +16,6 @@ const createRental = catchAsync(async (req, res) => {
             throw new ApiError(httpStatus.FORBIDDEN, "Cannot rent an item for another user");
     }
 
-    if(req.user.loyalty < req.body.loyalty)
-        throw new ApiError(httpStatus.CONFLICT, "Not enough loyalty points");
-
     const rental = await rentalService.createRental(req.body);
     res.status(httpStatus.CREATED).send(rental);
 });

@@ -99,6 +99,11 @@ userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
   return !!user;
 };
 
+userSchema.statics.enoughLoyalty = async function (userId, loyalty) {
+  const user = await this.findById(userId);
+  return user.loyalty >= loyalty;
+}
+
 /**
  * Check if password matches the user's password
  * @param {string} password

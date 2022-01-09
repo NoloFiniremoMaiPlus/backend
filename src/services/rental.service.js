@@ -1,10 +1,14 @@
 const httpStatus = require('http-status');
-const { Rental, User, Item } = require('../models');
+const { Rental, User } = require('../models');
 const userService = require('./user.service');
 const itemService = require('./item.service');
 const ApiError = require('../utils/ApiError');
 
 const createRental = async (rentalBody) => {
+    
+    if( ! (await User.enoughLoyalty(rentalBody.user, rentalBody.loyalty)))
+        throw new ApiError(httpStatus.FORBIDDEN, "Insufficend loyalty points");
+
     userService.updateUserById(rentalBody.user, {$inc : {loyalty: -rentalBody.loyalty} });
 
     // Assing resp from item
@@ -24,9 +28,6 @@ const getRentalById = async (id) => {
 };
 
 const updateRentalById = async (rentalId, updateBody) => {
-    if (updateBody.email && (await Rental.isEmailTaken(updateBody.email, rentalId))) {
-        throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
-    }
     var rental = await Rental.findByIdAndUpdate(rentalId, updateBody, { returnDocument: 'after' }).exec();
     if (!rental) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Rental not found');
