@@ -4,8 +4,16 @@ const userService = require('./user.service');
 const itemService = require('./item.service');
 const ApiError = require('../utils/ApiError');
 
+// If it ended, add loyalty points to User
+const endRental = (rental) => {
+    if(rental.state == "Completed")
+        userService.updateUserById(rental.user, 
+                                    { $inc : {
+                                        loyalty: Math.floor(rental.price/20)
+                                    } });
+}
+
 const createRental = async (rentalBody) => {
-    
     if( ! (await User.enoughLoyalty(rentalBody.user, rentalBody.loyalty)))
         throw new ApiError(httpStatus.FORBIDDEN, "Insufficend loyalty points");
 
@@ -14,6 +22,8 @@ const createRental = async (rentalBody) => {
     // Assing resp from item
     item = await itemService.getItemById(rentalBody.item);
     rentalBody.resp = item.resp;
+
+    endRental(rentalBody);
 
     return Rental.create(rentalBody);
 };
@@ -29,13 +39,10 @@ const getRentalById = async (id) => {
 
 const updateRentalById = async (rentalId, updateBody) => {
     var rental = await Rental.findByIdAndUpdate(rentalId, updateBody, { returnDocument: 'after' }).exec();
-    if (!rental) {
+    if (!rental)
         throw new ApiError(httpStatus.NOT_FOUND, 'Rental not found');
-    }
 
-    // If it ended, add loyalty points to User
-    if(rental.state == "Completed")
-        userService.updateUserById(rental.user, {$inc : {loyalty: rental.loyalty} });
+    endRental(rental);
 
     return rental;
 };
@@ -58,7 +65,7 @@ const deleteRentalById = async (rentalId) => {
     await rental.remove();
     return rental;
 };
-  
+
 
 module.exports = {
     createRental,
