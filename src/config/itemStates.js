@@ -1,2 +1,2 @@
-const itemStates = ["Mint", "Sligthly damaged", "Damaged", "Broken"];
+const itemStates = ['Mint', 'SlightlyDamaged', 'Damaged', 'Broken'];
 module.exports = itemStates;

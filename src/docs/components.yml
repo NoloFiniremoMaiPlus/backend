@@ -11,13 +11,13 @@ components:
           type: string
         category:
           type: string
-        brand: 
+        brand:
           type: string
         resp:
           type: string
         state:
           type: string
-          enum: [Mint, Sligthly damaged, Damaged, Broken]
+          enum: [Mint, SligthlyDamaged, Damaged, Broken]
         basePrice:
           type: number
         dailyPrice:
@@ -28,7 +28,7 @@ components:
           type: boolean
         availability:
           type: array
-          items: 
+          items:
             type: object
             properties:
               from:
@@ -52,7 +52,7 @@ components:
         state:
           type: string
           enum: [Booked, Ongoing, Finished, Completed]
-        from: 
+        from:
           type: string
           format: date
         to:

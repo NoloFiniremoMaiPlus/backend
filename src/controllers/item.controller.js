@@ -8,7 +8,7 @@ const brands = require('../config/brands');
 
 
 const getItems = catchAsync(async (req, res) => {
-    const filter = pick(req.query, ['name', 'resp', 'state']);
+    const filter = pick(req.query, ['name', 'resp', 'state', 'brand', 'category']);
     if(req.query.hasOwnProperty('keywords'))
         filter.$text = { $search: req.query.keywords };
 
