@@ -12,12 +12,12 @@ const getItems = catchAsync(async (req, res) => {
     if(req.query.hasOwnProperty('keywords'))
         filter.$text = { $search: req.query.keywords };
 
-    if(req.query.priceTo || req.query.priceTo){
-        filter.basePrice = {};
-        if(req.query.priceTo)
-            filter.basePrice.$lt = req.query.priceTo;
+    if(req.query.priceFrom || req.query.priceTo){
+        filter.totalPrice = {};
         if(req.query.priceFrom)
-            filter.basePrice.$gt = req.query.priceFrom;
+            filter.totalPrice.$gt = req.query.priceFrom;
+        if(req.query.priceTo)
+            filter.totalPrice.$lt = req.query.priceTo;
     }
 
     // TODO cerco più 'state' possibili

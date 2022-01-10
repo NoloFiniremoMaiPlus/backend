@@ -23,11 +23,17 @@ const updateItem = async (itemId, updateBody) => {
     if(!(await getItemById(itemId)))
         throw new ApiError(httpStatus.NOT_FOUND, 'Item not found');
 
-    Item.findByIdAndUpdate(itemId, updateBody, {new: true}, (err, result) => {
-        // TODO Change error type to InternalError or smth
-        if(err) throw new ApiError(httpStatus.NOT_FOUND, 'Item not found');
-        return result;
-    });
+    var options = { 
+        returnDocument: 'after',
+        runValidators: true,
+    }
+    const item = await Item.findByIdAndUpdate(itemId, updateBody, options).exec();
+
+    if (!item) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Item not found');
+    }
+
+    return item;
 };
 
 /**
