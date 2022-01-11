@@ -46,6 +46,10 @@ const itemSchema = mongoose.Schema(
       type: Float,
       required: true,
     },
+    totalPrice: {
+      type: Float,
+      default: 0,
+    },
     discount: {
       type: Number,
     },
@@ -82,6 +86,19 @@ itemSchema.plugin(toJSON);
 itemSchema.plugin(paginate);
 
 itemSchema.index({name: 'text', description: 'text'});
+
+itemSchema.post('findOneAndUpdate', async function (result) {
+
+  const modifiedFields = this.getUpdate().$set;
+  const item = result;
+  if (modifiedFields.hasOwnProperty('basePrice') || 
+      modifiedFields.hasOwnProperty('dailyPrice')) {
+    item.totalPrice = item.basePrice + item.dailyPrice;
+  }
+
+  result.save();
+  
+});
 
 /**
  * @typedef Item
