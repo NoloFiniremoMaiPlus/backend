@@ -15,9 +15,9 @@ const getItems = catchAsync(async (req, res) => {
     if(req.query.priceTo || req.query.priceTo){
         filter.basePrice = {};
         if(req.query.priceTo)
-            filter.basePrice.$lt = req.query.priceTo;
+            filter.basePrice.$lte = req.query.priceTo;
         if(req.query.priceFrom)
-            filter.basePrice.$gt = req.query.priceFrom;
+            filter.basePrice.$gte = req.query.priceFrom;
     }
 
     // TODO cerco più 'state' possibili
