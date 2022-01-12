@@ -26,8 +26,6 @@ const getItems = catchAsync(async (req, res) => {
     if(req.role === 'user')
         filter.enabled = true;
 
-    console.log(filter);
-
     const options = pick(req.query, ['sortBy', 'limit', 'page']);
     const items = await itemService.getItems(filter, options);
     res.send(items);
