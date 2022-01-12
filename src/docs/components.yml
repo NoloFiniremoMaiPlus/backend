@@ -51,7 +51,7 @@ components:
           type: string
         state:
           type: string
-          enum: [Booked, Ongoing, Finished, Completed]
+          enum: [Booked, Accepted, Ongoing, Expired, Returned]
         from:
           type: string
           format: date
