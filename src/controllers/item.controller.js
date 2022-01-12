@@ -12,19 +12,21 @@ const getItems = catchAsync(async (req, res) => {
     if(req.query.hasOwnProperty('keywords'))
         filter.$text = { $search: req.query.keywords };
 
-    if(req.query.priceTo || req.query.priceTo){
-        filter.basePrice = {};
+    if(req.query.priceFrom || req.query.priceTo){
+        filter.totalPrice = {};
         if(req.query.priceTo)
-            filter.basePrice.$lte = req.query.priceTo;
+            filter.totalPrice.$lte = req.query.priceTo;
         if(req.query.priceFrom)
-            filter.basePrice.$gte = req.query.priceFrom;
+            filter.totalPrice.$gte = req.query.priceFrom;
     }
 
     // TODO cerco più 'state' possibili
 
     // User can't see hidden items
     if(req.role === 'user')
-    filter.enabled = true;
+        filter.enabled = true;
+
+    console.log(filter);
 
     const options = pick(req.query, ['sortBy', 'limit', 'page']);
     const items = await itemService.getItems(filter, options);
