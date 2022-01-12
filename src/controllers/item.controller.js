@@ -20,8 +20,6 @@ const getItems = catchAsync(async (req, res) => {
             filter.totalPrice.$gte = req.query.priceFrom;
     }
 
-    // TODO cerco più 'state' possibili
-
     // User can't see hidden items
     if(req.role === 'user')
         filter.enabled = true;
