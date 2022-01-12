@@ -96,16 +96,6 @@ module.exports = router;
  *           type: number
  *         description: Item with price lesser than
  *       - in: query
- *         name: dateFrom
- *         schema:
- *           type: date
- *         description: Item availability start date
- *       - in: query
- *         name: dateTo
- *         schema:
- *           type: date
- *         description: Item availability end date
- *       - in: query
  *         name: sortBy
  *         schema:
  *           type: string
@@ -192,7 +182,7 @@ module.exports = router;
  *                 type: number
  *               enabled:
  *                 type: boolean
- *               availability:
+ *               unavailable:
  *                 type: object
  *                 properties:
  *                   from:
@@ -213,7 +203,7 @@ module.exports = router;
  *               dailyPrice: 10
  *               discount: 20
  *               enabled: true
- *               availability: [{"from" : "2021-12-15", "to" : "2021-12-16"}]
+ *               unavailable: [{"from" : "2021-12-15", "to" : "2021-12-16"}]
  *     responses:
  *       "201":
  *         description: Created
@@ -300,7 +290,7 @@ module.exports = router;
  *                 type: number
  *               enabled:
  *                 type: boolean
- *               availability:
+ *               unavailable:
  *                 type: object
  *                 properties:
  *                   from:
@@ -321,7 +311,7 @@ module.exports = router;
  *               dailyPrice: 10
  *               discount: 20
  *               enabled: true
- *               availability: [{"from" : "2021-12-15", "to" : "2021-12-16"}]
+ *               unavailable: [{"from" : "2021-12-15", "to" : "2021-12-16"}]
  *     responses:
  *       "200":
  *         description: OK

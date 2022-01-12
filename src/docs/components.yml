@@ -26,7 +26,7 @@ components:
           type: number
         enabled:
           type: boolean
-        availability:
+        unavailable:
           type: array
           items:
             type: object

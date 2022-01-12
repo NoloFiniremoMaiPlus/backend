@@ -13,11 +13,8 @@ const getItems = {
     resp: Joi.string().custom(objectId),
     //state: Joi.array().items(Joi.string().valid(...itemStates)),
     state: Joi.string().valid(...itemStates),
-    // TODO change this to convention
     priceFrom: Joi.number().integer(),
 		priceTo: Joi.number().integer(),
-    dateFrom: Joi.date(),
-    dateTo: Joi.date(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -37,7 +34,7 @@ const addItem = {
 		dailyPrice: Joi.number().required(),
     discount: Joi.number(),
     enabled: Joi.boolean().default(true),
-    availability: Joi.array().items({
+    unavailable: Joi.array().items({
       from: Joi.date().iso().required(),
       to: Joi.date().iso().min(Joi.ref('from')) // min is used as >=
     }),
@@ -66,7 +63,7 @@ const updateItem = {
 		dailyPrice: Joi.number(),
     discount: Joi.number(),
     enabled: Joi.boolean(),
-    availability: Joi.array().items({
+    unavailable: Joi.array().items({
       from: Joi.date().iso(),
       to: Joi.date().iso().min(Joi.ref('from')) // min is used as >=
     }),
