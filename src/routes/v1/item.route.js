@@ -76,11 +76,6 @@ module.exports = router;
  *           type: string
  *         description: Item Brand
  *       - in: query
- *         name: resp
- *         schema:
- *           type: string
- *         description: Backoffice responsible for this item
- *       - in: query
  *         name: state
  *         schema:
  *           type: string
@@ -156,7 +151,6 @@ module.exports = router;
  *             type: object
  *             required:
  *               - name
- *               - resp
  *               - basePrice
  *               - dailyPrice
  *             properties:
@@ -169,8 +163,6 @@ module.exports = router;
  *               category:
  *                 type: string
  *               brand:
- *                 type: string
- *               resp:
  *                 type: string
  *               state:
  *                 type: string
@@ -277,8 +269,6 @@ module.exports = router;
  *               category:
  *                 type: string
  *               brand:
- *                 type: string
- *               resp:
  *                 type: string
  *               state:
  *                 type: string

@@ -13,8 +13,6 @@ components:
           type: string
         brand:
           type: string
-        resp:
-          type: string
         state:
           type: string
           enum: [Mint, SligthlyDamaged, Damaged, Broken]
