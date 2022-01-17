@@ -9,7 +9,7 @@ const router = express.Router();
 router
   .route('/')
   .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers)
-  .post(/*auth('manageUsers'),*/ validate(userValidation.createUser), userController.createUser);
+  .post(auth('createUsers'), validate(userValidation.createUser), userController.createUser);
 
 router
   .route('/:userId')
@@ -31,7 +31,7 @@ module.exports = router;
  * /users:
  *   post:
  *     summary: Create a user
- *     description: Only admins can create other users.
+ *     description: Only managers can create other users.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []

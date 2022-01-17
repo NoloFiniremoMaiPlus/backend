@@ -9,7 +9,7 @@ const router = express.Router();
 router
   .route('/')
   .get(auth('getItems'), validate(itemValidation.getItems), itemController.getItems)
-  .post(/*auth('manageItems'),*/ validate(itemValidation.addItem), itemController.addItem);
+  .post(auth('manageItems'), validate(itemValidation.addItem), itemController.addItem);
 
 router
   .route('/categories')
