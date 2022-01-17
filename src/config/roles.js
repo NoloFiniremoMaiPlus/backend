@@ -1,10 +1,10 @@
 const allRoles = {
   user: [],
-  backoffice: [],
-  manager: ['getUsers', 'manageUsers', 'getItems', 'manageItems'],
+  backoffice: ['getUsers', 'manageUsers', 'getItems', 'manageItems', 'getRentals', 'manageRentals'],
+  manager: ['createUsers'],
 };
 
-// TODO add funzionario e manager
+allRoles.manager.push(...allRoles.backoffice);
 
 const roles = Object.keys(allRoles);
 const roleRights = new Map(Object.entries(allRoles));
