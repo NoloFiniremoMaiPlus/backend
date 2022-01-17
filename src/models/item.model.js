@@ -28,12 +28,6 @@ const itemSchema = mongoose.Schema(
       type: String,
       enum: brands,
     },
-    // Todo delte this shit
-    resp: {
-      type: mongoose.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
     state: {
       type: String,
       enum: itemStates,

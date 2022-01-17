@@ -14,7 +14,6 @@ const rentalSchema = mongoose.Schema(
     resp: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
-      required: true,
       autopopulate: true
     },
     item: {

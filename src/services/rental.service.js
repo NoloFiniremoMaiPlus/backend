@@ -19,10 +19,6 @@ const createRental = async (rentalBody) => {
 
     userService.updateUserById(rentalBody.user, {$inc : {loyalty: -rentalBody.loyalty} });
 
-    // Assing resp from item
-    item = await itemService.getItemById(rentalBody.item);
-    rentalBody.resp = item.resp;
-
     endRental(rentalBody);
 
     return Rental.create(rentalBody);
