@@ -59,6 +59,7 @@ const userSchema = mongoose.Schema(
     loyalty: {
       type: Number,
       min: 0,
+      default: 0,
     },
     annotation: {
       type: annotationSchema,
