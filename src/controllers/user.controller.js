@@ -25,6 +25,10 @@ const getUser = catchAsync(async (req, res) => {
 });
 
 const updateUser = catchAsync(async (req, res) => {
+  // Only user can change their password, not even manager
+  if (req.body.password && req.params.userId != req.user.id) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden');
+  }
   const user = await userService.updateUserById(req.params.userId, req.body);
   res.send(user);
 });
