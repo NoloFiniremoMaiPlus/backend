@@ -22,7 +22,10 @@ const createRental = catchAsync(async (req, res) => {
   
 const getRentals = catchAsync(async (req, res) => {
     const filter = pick(req.query, ['user', 'resp', 'item', 'state', 'from', 'to']);
-
+    
+    if(req.user.role == "user"){
+        filter.user = req.user.id
+    }
     // add searching for from and to
 
     const options = pick(req.query, ['sortBy', 'limit', 'page']);
@@ -33,12 +36,18 @@ const getRentals = catchAsync(async (req, res) => {
 const getRental = catchAsync(async (req, res) => {
     const rental = await rentalService.getRentalById(req.params.rentalId);
     if (!rental) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Rental not found');
+        throw new ApiError(httpStatus.NOT_FOUND, 'Rental not found');
+    } else if (req.user.role = "user" && req.user.id !== rental.user) {
+        // User can see their rental, mangager/backoffice can see every rental
+        throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden');
     }
     res.send(rental); 
 });
 
 const updateRental = catchAsync(async (req, res) => {
+    // when backoffice or manager accept the rental they become the resp
+    if(req.body.state == "Accepted")
+        req.body.resp = req.user.id
     const rental = await rentalService.updateRentalById(req.params.rentalId, req.body);
     res.send(rental);
 });
