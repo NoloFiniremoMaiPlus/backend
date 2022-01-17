@@ -114,12 +114,13 @@ userSchema.methods.isPasswordMatch = async function (password) {
   return bcrypt.compare(password, user.password);
 };
 
-userSchema.pre('save', async function (next) {
-  const user = this;
-  if (user.isModified('password')) {
+userSchema.post('findOneAndUpdate', async function (result) {
+  const modifiedFields = this.getUpdate().$set;
+  const user = result;
+  if (modifiedFields.hasOwnProperty('password')) {
     user.password = await bcrypt.hash(user.password, 8);
   }
-  next();
+  result.save();
 });
 
 /**
