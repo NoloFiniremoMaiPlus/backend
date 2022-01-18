@@ -3,6 +3,7 @@ const { objectId } = require('./custom.validation');
 const brands = require('../config/brands');
 const categories = require('../config/categories');
 const itemStates = require('../config/itemStates');
+const { discountDateSchema, discountWeekDaySchema } = require('./discount.validation');
 
 const getItems = {
   query: Joi.object().keys({
@@ -30,6 +31,8 @@ const addItem = {
     basePrice: Joi.number().required(),
 		dailyPrice: Joi.number().required(),
     discount: Joi.number(),
+    discountsDate: Joi.array().items(discountDateSchema),
+    discountsWeekday: Joi.array().items(discountWeekDaySchema),
     enabled: Joi.boolean().default(true),
     unavailable: Joi.array().items({
       from: Joi.date().iso().required(),

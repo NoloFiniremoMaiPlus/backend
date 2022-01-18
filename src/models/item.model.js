@@ -4,6 +4,7 @@ const { toJSON, paginate } = require('./plugins');
 const brands = require('../config/brands');
 const categories = require('../config/categories');
 const itemStates = require('../config/itemStates');
+const { discountDateSchema, discountWeekDaySchema } = require('./discount.model');
 
 const itemSchema = mongoose.Schema(
   {
@@ -48,10 +49,11 @@ const itemSchema = mongoose.Schema(
     discount: {
       type: Number,
     },
+    discountsDate: [{type: discountDateSchema}],
+    discountsWeekday: [{type: discountWeekDaySchema}],
     // TODO
 	  /* review: [{type: mongoose.Types.ObjectId,
                   ref: "Review"}], */ 
-    /* discounts: { type: [discountSchema], },*/
     enabled: {
       type: Boolean,
       default: true,
