@@ -14,6 +14,9 @@ const createRental = catchAsync(async (req, res) => {
 
         if(req.user.id != req.body.user)
             throw new ApiError(httpStatus.FORBIDDEN, "Cannot rent an item for another user");
+    } else {
+        // if rental is created by manager or backoffice, they become the resp
+        req.body.resp = req.user.id
     }
 
     const rental = await rentalService.createRental(req.body);
@@ -45,8 +48,8 @@ const getRental = catchAsync(async (req, res) => {
 });
 
 const updateRental = catchAsync(async (req, res) => {
-    // when backoffice or manager accept the rental they become the resp
-    if(req.body.state == "Accepted")
+    // when backoffice or manager edit the rental they become the resp
+    if(req.user.role != "user")
         req.body.resp = req.user.id
     const rental = await rentalService.updateRentalById(req.params.rentalId, req.body);
     res.send(rental);

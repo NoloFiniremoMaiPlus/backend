@@ -127,7 +127,6 @@ module.exports = router;
  *             type: object
  *             required:
  *               - user
- *               - resp
  *               - item
  *               - from
  *               - to
@@ -236,8 +235,6 @@ module.exports = router;
  *             properties:
  *               user:
  *                 type: string
- *               resp:
- *                 type: string
  *               item:
  *                 type: string
  *               state:
@@ -261,7 +258,6 @@ module.exports = router;
  *                 $ref: '#/components/schemas/Annotation'
  *             example:
  *               user: user-id
- *               resp: resp-id
  *               item: item-id
  *               state: "Booked"
  *               from: 2022-01-01

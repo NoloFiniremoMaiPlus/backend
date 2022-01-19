@@ -44,7 +44,6 @@ const updateRental = {
   }),
   body: Joi.object().keys({
     user: Joi.string().custom(objectId),
-    resp: Joi.string().custom(objectId),
     item: Joi.string().custom(objectId),
     state: Joi.string().valid(...rentalStates),
     from: Joi.date().iso(),
