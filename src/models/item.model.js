@@ -87,10 +87,8 @@ itemSchema.index({name: 'text', description: 'text'});
 itemSchema.post('findOneAndUpdate', async function (result) {
 
   const modifiedFields = this.getUpdate().$set;
-  const item = result;
-  if (modifiedFields.hasOwnProperty('basePrice') || 
-      modifiedFields.hasOwnProperty('dailyPrice')) {
-    item.totalPrice = item.basePrice + item.dailyPrice;
+  if (modifiedFields.hasOwnProperty('basePrice') || modifiedFields.hasOwnProperty('dailyPrice')) {
+      result.totalPrice = result.basePrice + result.dailyPrice;
   }
 
   result.save();
