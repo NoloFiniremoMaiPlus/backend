@@ -117,11 +117,18 @@ userSchema.methods.isPasswordMatch = async function (password) {
 
 userSchema.post('findOneAndUpdate', async function (result) {
   const modifiedFields = this.getUpdate().$set;
-  const user = result;
   if (modifiedFields.hasOwnProperty('password')) {
-    user.password = await bcrypt.hash(user.password, 8);
+    result.password = result.password;
   }
   result.save();
+});
+
+userSchema.pre('save', async function (next) {
+  const user = this;
+  if (user.isModified('password')) {
+    user.password = await bcrypt.hash(user.password, 8);
+  }
+  next();
 });
 
 /**
