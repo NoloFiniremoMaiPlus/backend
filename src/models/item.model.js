@@ -68,7 +68,7 @@ const itemSchema = mongoose.Schema(
           to: {
             type: Date,
           },
-        }, { _id: false })
+        })
       ],
     },
   },
@@ -83,6 +83,30 @@ itemSchema.plugin(toJSON);
 itemSchema.plugin(paginate);
 
 itemSchema.index({name: 'text', description: 'text'});
+
+/**
+ * isAvailable?
+ * @param {string} from Date from
+ * @param {string} to Date to
+ * @returns Range where this is available
+ */
+itemSchema.methods.isUnavailable = async function (from, to, rangeId) {
+  const item = this;
+  from = new Date(from);
+  to = new Date(to);
+
+  return item.unavailable.find((range) => {
+    /**
+     * If either 'from' or 'to' is inside 'range' (1, 2),
+     * or includes 'range' (3)
+     * the item is unavailable for that time period [from, to]
+     */
+    return range.id != rangeId && 
+        ((range.from <= from && from <= range.to) // 1
+        || (range.from <= to && to <= range.to) // 2
+        || (from <= range.from && range.to <= to)); // 3
+  });
+};
 
 itemSchema.post('findOneAndUpdate', async function (result) {
 

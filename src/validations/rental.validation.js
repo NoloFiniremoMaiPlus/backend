@@ -24,7 +24,7 @@ const createRental = {
     state: Joi.string().valid(...rentalStates),
     from: Joi.date().iso().required(),
     to: Joi.date().iso().min(Joi.ref('from')).required(), // min is used as >=
-    return: Joi.date().iso().min(Joi.ref('from')),
+    return: Joi.date().iso().min(Joi.ref('to')),
     price: Joi.number().min(0).required(),
     discount: Joi.number().min(0),
     loyalty: Joi.number().min(0),
@@ -47,8 +47,8 @@ const updateRental = {
     item: Joi.string().custom(objectId),
     state: Joi.string().valid(...rentalStates),
     from: Joi.date().iso(),
-    to: Joi.date().iso().min(Joi.ref('from')), // min is used as >=
-    return: Joi.date().iso().min(Joi.ref('from')),
+    to: Joi.date().iso(),
+    return: Joi.date().iso(),
     price: Joi.number().min(0),
     discount: Joi.number().min(0),
     surcharge: Joi.number().min(0),

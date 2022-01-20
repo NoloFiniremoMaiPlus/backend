@@ -48,10 +48,35 @@ const deleteItemById = async (itemId) => {
     });
 };
 
+const addUnavailable = async (itemId, from, to) => {
+    updateItem(itemId, {
+        "$push" : 
+            { unavailable : {
+                from: from,
+                to: to
+                }
+            },
+    });
+};
+
+const deleteUnavailable = async (itemId, from, to) => {
+    updateItem(itemId, {
+        "$pull" : 
+            { unavailable : {
+                from: from,
+                to: to
+                }
+            },
+    });
+};
+
+
 module.exports = {
     getItems,
     addItem,
     getItemById,
     updateItem,
     deleteItemById,
+    addUnavailable,
+    deleteUnavailable,
 };

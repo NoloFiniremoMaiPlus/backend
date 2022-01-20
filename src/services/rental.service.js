@@ -4,6 +4,7 @@ const userService = require('./user.service');
 const itemService = require('./item.service');
 const ApiError = require('../utils/ApiError');
 
+
 // If it ended, add loyalty points to User
 const endRental = (rental) => {
     if(rental.state == "Completed")
@@ -14,9 +15,25 @@ const endRental = (rental) => {
 }
 
 const createRental = async (rentalBody) => {
-    if( ! (await User.enoughLoyalty(rentalBody.user, rentalBody.loyalty)))
-        throw new ApiError(httpStatus.FORBIDDEN, "Insufficend loyalty points");
 
+    item = await itemService.getItemById(rentalBody.item);
+
+    if(!item)
+        throw new ApiError(httpStatus.NOT_FOUND, "Item not found");
+
+    if(await item.isUnavailable(rentalBody.from, rentalBody.to) || !item.enabled)
+        throw new ApiError(httpStatus.FORBIDDEN, "Item unavailable")
+
+    if(!(await userService.getUserById(rentalBody.user)))
+        throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+
+    if(!(await User.enoughLoyalty(rentalBody.user, rentalBody.loyalty)))
+        throw new ApiError(httpStatus.FORBIDDEN, "Insufficend loyalty points");
+    
+    // Mark item unavailable
+    itemService.addUnavailable(rentalBody.item, rentalBody.from, rentalBody.to);
+
+    // Subtract loyalty points from user
     userService.updateUserById(rentalBody.user, {$inc : {loyalty: -rentalBody.loyalty} });
 
     endRental(rentalBody);
@@ -34,13 +51,48 @@ const getRentalById = async (id) => {
 };
 
 const updateRentalById = async (rentalId, updateBody) => {
-    var rental = await Rental.findByIdAndUpdate(rentalId, updateBody, { returnDocument: 'after' }).exec();
-    if (!rental)
+    rent = await getRentalById(rentalId);
+    if (!rent)
         throw new ApiError(httpStatus.NOT_FOUND, 'Rental not found');
 
+    from = rent.from
+    to = rent.to
+    
+    // if 'from', 'to' or 'item' isn't passed, use the one in rent
+    updateBody.from = updateBody.from || from;
+    updateBody.to = updateBody.to || to;
+    updateBody.item = updateBody.item || rent.item;
+    
+    if(updateBody.from > updateBody.to)
+        throw new ApiError(httpStatus.BAD_REQUEST, "Invalid dates")
+
+    item = await itemService.getItemById((updateBody.item));
+    if(!item)
+        throw new ApiError(httpStatus.NOT_FOUND, "Item not found");
+
+    rangeId = item.unavailable.find(obj => {
+        return obj.from.getTime() == from.getTime() 
+            && obj.to.getTime() == to.getTime();
+    }).id;
+    //Check if expanding the range, it overlaps with another rental
+    if( (new Date(updateBody.from) < from && await item.isUnavailable(updateBody.from, from-1, rangeId)) ||
+            (to < new Date(updateBody.to) && await item.isUnavailable(to+1, updateBody.to, rangeId)) )
+        throw new ApiError(httpStatus.FORBIDDEN, "Item unavailable")
+
+    if(updateBody.user && !(await userService.getUserById(updateBody.user)))
+        throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+
+    var rental = await Rental.findByIdAndUpdate(rentalId, updateBody, { returnDocument: 'after' }).exec();
+    
     endRental(rental);
 
-    return rental;
+    // Delete old date range
+    await itemService.deleteUnavailable(updateBody.item, from, to);
+
+    // Add new date range
+    await itemService.addUnavailable(updateBody.item, updateBody.from, updateBody.to);
+    
+    return await getRentalById(rentalId);
 };
   
 /**
@@ -54,6 +106,8 @@ const deleteRentalById = async (rentalId) => {
         throw new ApiError(httpStatus.NOT_FOUND, 'Rental not found');
     }
     
+    itemService.deleteUnavailable(rental.item, rental.from, rental.to);
+
     // If still Booked, refound loyalty points
     if(rental.state == "Booked")
         userService.updateUserById(rental.user, {$inc : {loyalty: rental.loyalty} });
