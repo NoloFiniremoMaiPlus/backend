@@ -109,14 +109,13 @@ itemSchema.methods.isUnavailable = async function (from, to, rangeId) {
 };
 
 itemSchema.post('findOneAndUpdate', async function (result) {
-
-  const modifiedFields = this.getUpdate().$set;
-  if (modifiedFields.hasOwnProperty('basePrice') || modifiedFields.hasOwnProperty('dailyPrice')) {
-      result.totalPrice = result.basePrice + result.dailyPrice;
-  }
-
   result.save();
-  
+});
+
+itemSchema.pre('save', async function (next) {
+  const item = this;
+  item.totalPrice = item.basePrice + item.dailyPrice;
+  next();
 });
 
 /**
