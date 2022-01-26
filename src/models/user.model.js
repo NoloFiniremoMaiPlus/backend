@@ -118,7 +118,7 @@ userSchema.methods.isPasswordMatch = async function (password) {
 userSchema.pre('findOneAndUpdate', async function(next) {
   const docToUpdate = await this.model.findOne(this.getQuery()); // The document that `findOneAndUpdate()` will modify
   console.log("Updating: " + docToUpdate.username); 
-  if(this._update.password)
+  if (this._update.password)
     this._update.password = await bcrypt.hash(this._update.password, 8);
   next();
 });
