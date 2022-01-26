@@ -57,9 +57,10 @@ const updateUserById = async (userId, updateBody) => {
   if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
+  
   var options = { 
-   returnDocument: 'after',
-   runValidators: true,
+    returnDocument: 'after',
+    runValidators: true,
   }
   var user = await User.findByIdAndUpdate(userId, updateBody, options).exec();
 
