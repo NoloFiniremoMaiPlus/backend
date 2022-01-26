@@ -108,13 +108,22 @@ itemSchema.methods.isUnavailable = async function (from, to, rangeId) {
   });
 };
 
-itemSchema.post('findOneAndUpdate', async function (result) {
-  result.save();
+itemSchema.pre('findOneAndUpdate', async function(next) {
+  const docToUpdate = await this.model.findOne(this.getQuery()); // The document that `findOneAndUpdate()` will modify
+  console.log("Updating: " + docToUpdate.name);
+  if (this._update.basePrice || this._update.dailyPrice) {
+    base = this._update.basePrice || docToUpdate.basePrice
+    daily = this._update.dailyPrice || docToUpdate.dailyPrice
+    this._update.totalPrice = base + daily
+  }
+  next();
 });
 
 itemSchema.pre('save', async function (next) {
   const item = this;
-  item.totalPrice = item.basePrice + item.dailyPrice;
+  console.log("Updating: " + this.name);
+  if (item.isModified('basePrice') || item.isModified('dailyPrice'))
+    item.totalPrice = item.basePrice + item.dailyPrice;
   next();
 });
 
