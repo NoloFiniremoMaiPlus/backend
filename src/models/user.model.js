@@ -115,13 +115,20 @@ userSchema.methods.isPasswordMatch = async function (password) {
   return bcrypt.compare(password, user.password);
 };
 
-userSchema.post('findOneAndUpdate', async function (result) {
-  result.save();
+userSchema.pre('findOneAndUpdate', async function(next) {
+  const docToUpdate = await this.model.findOne(this.getQuery()); // The document that `findOneAndUpdate()` will modify
+  console.log("Updating: " + docToUpdate.username); 
+  if(this._update.password)
+    this._update.password = await bcrypt.hash(this._update.password, 8);
+  next();
 });
 
 userSchema.pre('save', async function (next) {
   const user = this;
-  user.password = await bcrypt.hash(user.password, 8);
+  console.log("Updating: " + this.username); 
+  if (user.isModified('password')) {
+    user.password = await bcrypt.hash(user.password, 8);
+  }
   next();
 });
 
