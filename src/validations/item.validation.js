@@ -75,10 +75,23 @@ const deleteItem = {
   }),
 };
 
+const rentItem = {
+  params: Joi.object().keys({
+    itemId: Joi.string().custom(objectId),
+  }),
+  body: Joi.object().keys({
+    from: Joi.date().iso().required(),
+    to: Joi.date().iso().min(Joi.ref('from')).required(),
+    loyalty: Joi.number().min(0).default(0),
+    estimate: Joi.boolean().default(false),
+  }),
+}
+
 module.exports = {
   addItem,
   updateItem,
   getItems,
   getItem,
   deleteItem,
+  rentItem,
 };

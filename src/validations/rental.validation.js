@@ -25,9 +25,9 @@ const createRental = {
     from: Joi.date().iso().required(),
     to: Joi.date().iso().min(Joi.ref('from')).required(), // min is used as >=
     return: Joi.date().iso().min(Joi.ref('to')),
-    price: Joi.number().min(0).required(),
+    price: Joi.number().min(0),
     discount: Joi.number().min(0),
-    loyalty: Joi.number().min(0),
+    loyalty: Joi.number().min(0).default(0),
     surcharge: Joi.number().min(0),
   }),
 };

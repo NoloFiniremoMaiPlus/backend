@@ -3,6 +3,7 @@ const { Rental, User } = require('../models');
 const userService = require('./user.service');
 const itemService = require('./item.service');
 const ApiError = require('../utils/ApiError');
+const { date } = require('joi');
 
 
 // If it ended, add loyalty points to User
@@ -14,7 +15,7 @@ const endRental = (rental) => {
                                     } });
 }
 
-const createRental = async (rentalBody) => {
+const createRental = async (rentalBody, estimate) => {
 
     item = await itemService.getItemById(rentalBody.item);
 
@@ -30,15 +31,23 @@ const createRental = async (rentalBody) => {
     if(!(await User.enoughLoyalty(rentalBody.user, rentalBody.loyalty)))
         throw new ApiError(httpStatus.FORBIDDEN, "Insufficend loyalty points");
     
-    // Mark item unavailable
-    itemService.addUnavailable(rentalBody.item, rentalBody.from, rentalBody.to);
+    rentalBody.price = rentalBody.price || await getRentalPrice(item, new Date(rentalBody.from), new Date(rentalBody.to));
 
-    // Subtract loyalty points from user
-    userService.updateUserById(rentalBody.user, {$inc : {loyalty: -rentalBody.loyalty} });
+    if (estimate) {
+        
+        return rentalBody.price;
 
-    endRental(rentalBody);
+    } else {
+        // Mark item unavailable
+        itemService.addUnavailable(rentalBody.item, rentalBody.from, rentalBody.to);
 
-    return Rental.create(rentalBody);
+        // Subtract loyalty points from user
+        userService.updateUserById(rentalBody.user, {$inc : {loyalty: -rentalBody.loyalty} });
+
+        endRental(rentalBody);
+
+        return Rental.create(rentalBody);
+    }
 };
 
 const queryRentals = async (filter, options) => {
@@ -116,6 +125,17 @@ const deleteRentalById = async (rentalId) => {
     return rental;
 };
 
+const getRentalPrice = async (item, from, to) => {
+    // difference in days
+    (Math.floor((to-from) / (1000*60*60*24))+1);
+
+    for(d = from; d <= to; d.setDate(d.getDate() + 1)){
+        console.log(d);
+    }
+
+    price = item.basePrice + (Math.floor((to-from) / (1000*60*60*24))+1) * item.dailyPrice;
+    return price;
+};
 
 module.exports = {
     createRental,

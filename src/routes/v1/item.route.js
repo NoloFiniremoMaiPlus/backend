@@ -8,7 +8,7 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(auth('getItems'), validate(itemValidation.getItems), itemController.getItems)
+  .get(auth(), validate(itemValidation.getItems), itemController.getItems)
   .post(auth('manageItems'), validate(itemValidation.addItem), itemController.addItem);
 
 router
@@ -35,6 +35,10 @@ router
   .get(auth('getItems'), validate(itemValidation.getItem), itemController.getItem)
   .patch(auth('manageItems'), validate(itemValidation.updateItem), itemController.updateItem)
   .delete(auth('manageItems'), validate(itemValidation.deleteItem), itemController.deleteItem);
+
+router
+  .route('/:itemId/rent')
+  .post(auth(), validate(itemValidation.rentItem), itemController.rentItem);
 
 module.exports = router;
 
@@ -172,6 +176,16 @@ module.exports = router;
  *                 type: number
  *               discount:
  *                 type: number
+ *               discountsDate: 
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/Discount'
+ *                 description: "use full date 2021-01-01"
+ *               discountsWeekday: 
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/Discount'
+ *                 description: "use weekday 0(monday) to 6(sunday)"
  *               enabled:
  *                 type: boolean
  *               unavailable:
@@ -194,6 +208,18 @@ module.exports = router;
  *               basePrice: 50
  *               dailyPrice: 10
  *               discount: 20
+ *               discountsDate: [{
+ *                 "from": "2021-12-24",
+ *                 "to": "2021-12-25",
+ *                 "amount": 50,
+ *                 "description": "Christmas Sale"
+ *               }]
+ *               discountsWeekday: [{
+ *                 "from": "5",
+ *                 "to": "6",
+ *                 "amount": 50,
+ *                 "description": "Weekend Sale"
+ *               }]
  *               enabled: true
  *               unavailable: [{"from" : "2021-12-15", "to" : "2021-12-16"}]
  *     responses:
@@ -278,6 +304,16 @@ module.exports = router;
  *                 type: number
  *               discount:
  *                 type: number
+ *               discountsDate: 
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/Discount'
+ *                 description: "use full date 2021-01-01"
+ *               discountsWeekday: 
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/Discount'
+ *                 description: "use weekday 0(monday) to 6(sunday)"
  *               enabled:
  *                 type: boolean
  *               unavailable:
@@ -300,6 +336,18 @@ module.exports = router;
  *               basePrice: 50
  *               dailyPrice: 10
  *               discount: 20
+ *               discountsDate: [{
+ *                 "from": "2021-12-24",
+ *                 "to": "2021-12-25",
+ *                 "amount": 50,
+ *                 "description": "Christmas Sale"
+ *               }]
+ *               discountsWeekday: [{
+ *                 "from": "5",
+ *                 "to": "6",
+ *                 "amount": 50,
+ *                 "description": "Weekend Sale"
+ *               }]
  *               enabled: true
  *               unavailable: [{"from" : "2021-12-15", "to" : "2021-12-16"}]
  *     responses:
