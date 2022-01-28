@@ -8,7 +8,7 @@ const { date } = require('joi');
 
 // If it ended, add loyalty points to User
 const endRental = (rental) => {
-    if(rental.state == "Completed")
+    if(rental.state == "Returned")
         userService.updateUserById(rental.user, 
                                     { $inc : {
                                         loyalty: Math.floor(rental.price/20)
