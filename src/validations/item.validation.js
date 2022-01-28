@@ -12,6 +12,7 @@ const getItems = {
     category: Joi.string().valid(...categories),
     brand: Joi.string().valid(...brands),
     state: Joi.string().valid(...itemStates),
+    enabled: Joi.boolean(),
     priceFrom: Joi.number().integer(),
 		priceTo: Joi.number().integer(),
     sortBy: Joi.string(),

@@ -19,7 +19,7 @@ const getItemById = async (itemId) => {
 };
 
 const updateItem = async (itemId, updateBody) => {
-    
+
     if(!(await getItemById(itemId)))
         throw new ApiError(httpStatus.NOT_FOUND, 'Item not found');
 
