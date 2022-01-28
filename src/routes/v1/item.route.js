@@ -32,7 +32,7 @@ router
 
 router
   .route('/:itemId')
-  .get(auth('getItems'), validate(itemValidation.getItem), itemController.getItem)
+  .get(auth(), validate(itemValidation.getItem), itemController.getItem)
   .patch(auth('manageItems'), validate(itemValidation.updateItem), itemController.updateItem)
   .delete(auth('manageItems'), validate(itemValidation.deleteItem), itemController.deleteItem);
 
