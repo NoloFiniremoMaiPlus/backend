@@ -62,6 +62,8 @@ const updateItem = {
     basePrice: Joi.number(),
 		dailyPrice: Joi.number(),
     discount: Joi.number(),
+    discountsDate: Joi.array().items(discountDateSchema),
+    discountsWeekday: Joi.array().items(discountWeekDaySchema),
     enabled: Joi.boolean(),
     unavailable: Joi.array().items({
       from: Joi.date().iso(),
