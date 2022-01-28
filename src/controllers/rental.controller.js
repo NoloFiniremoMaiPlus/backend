@@ -5,8 +5,19 @@ const { rentalService } = require('../services');
 const ApiError = require('../utils/ApiError');
 
 const createRental = catchAsync(async (req, res) => {
-    // the resp for this rental is the backoffice/manager who created it
-    req.body.resp = req.user.id
+    
+    if(req.user.role == "user"){
+        // State Booked
+        delete req.body.state;
+        // No return date
+        delete req.body.return;
+
+        if(req.user.id != req.body.user)
+            throw new ApiError(httpStatus.FORBIDDEN, "Cannot rent an item for another user");
+    } else {
+        // if rental is created by manager or backoffice, they become the resp
+        req.body.resp = req.user.id
+    }
     
     const rental = await rentalService.createRental(req.body);
     res.status(httpStatus.CREATED).send(rental);

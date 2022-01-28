@@ -8,7 +8,7 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(auth(), validate(itemValidation.getItems), itemController.getItems)
+  .get(validate(itemValidation.getItems), itemController.getItems)
   .post(auth('manageItems'), validate(itemValidation.addItem), itemController.addItem);
 
 router
@@ -35,10 +35,6 @@ router
   .get(auth('getItems'), validate(itemValidation.getItem), itemController.getItem)
   .patch(auth('manageItems'), validate(itemValidation.updateItem), itemController.updateItem)
   .delete(auth('manageItems'), validate(itemValidation.deleteItem), itemController.deleteItem);
-
-router
-  .route('/:itemId/rent')
-  .post(auth(), validate(itemValidation.rentItem), itemController.rentItem);
 
 module.exports = router;
 
