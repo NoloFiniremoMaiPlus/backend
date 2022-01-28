@@ -3,12 +3,11 @@ const { Rental, User } = require('../models');
 const userService = require('./user.service');
 const itemService = require('./item.service');
 const ApiError = require('../utils/ApiError');
-const { date } = require('joi');
 
 
 // If it ended, add loyalty points to User
 const endRental = (rental) => {
-    if(rental.state == "Completed")
+    if(rental.state == "Returned")
         userService.updateUserById(rental.user, 
                                     { $inc : {
                                         loyalty: Math.floor(rental.price/20)

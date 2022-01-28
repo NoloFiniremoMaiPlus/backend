@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
-const { itemService, rentalService } = require('../services');
+const { itemService } = require('../services');
 const ApiError = require('../utils/ApiError');
 const categories = require('../config/categories');
 const brands = require('../config/brands');
@@ -52,18 +52,6 @@ const deleteItem = catchAsync(async (req, res) => {
     res.sendStatus(httpStatus.NO_CONTENT);
 });
 
-const rentItem = catchAsync(async (req, res) => {
-    const {estimate, ...rentalBody} = req.body
-
-    rentalBody.user = req.user.id;
-    rentalBody.item = req.params.itemId;
-
-    const rent = await rentalService.createRental(rentalBody, estimate);
-
-    console.log(rent);
-    res.status(httpStatus.OK).send("Rent : " + rent);
-});
-
 const getCategories = (req,res) => {
     res.status(httpStatus.OK).send(categories)
 }
@@ -88,7 +76,6 @@ module.exports = {
     getItem,
     updateItem,
     deleteItem,
-    rentItem,
     getCategories,
     getBrands,
     enableItem,

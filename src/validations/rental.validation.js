@@ -29,6 +29,7 @@ const createRental = {
     discount: Joi.number().min(0),
     loyalty: Joi.number().min(0).default(0),
     surcharge: Joi.number().min(0),
+    estimate: Joi.boolean().default(false),
   }),
 };
 
