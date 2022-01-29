@@ -25,7 +25,8 @@ const createRental = {
     from: Joi.date().iso().required(),
     to: Joi.date().iso().min(Joi.ref('from')).required(), // min is used as >=
     return: Joi.date().iso().min(Joi.ref('to')),
-    price: Joi.number().min(0),
+    base: Joi.number().min(0),
+    total: Joi.number().min(0),
     discounts: Joi.array().items(Joi.object().keys({
       amount: Joi.number().min(0),
       description: Joi.string(),
@@ -53,7 +54,8 @@ const updateRental = {
     from: Joi.date().iso(),
     to: Joi.date().iso(),
     return: Joi.date().iso(),
-    price: Joi.number().min(0),
+    base: Joi.number().min(0),
+    total: Joi.number().min(0),
     discounts: Joi.array().items(Joi.object().keys({
       amount: Joi.number().min(0),
       description: Joi.string(),

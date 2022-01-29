@@ -130,7 +130,6 @@ module.exports = router;
  *               - item
  *               - from
  *               - to
- *               - price
  *             properties:
  *               user:
  *                 type: string
@@ -150,10 +149,17 @@ module.exports = router;
  *                 type: string
  *                 format: date
  *                 description: User cannot use this field, only admin.
- *               price:
+ *               base:
  *                 type: number
- *               discount:
+ *               total:
  *                 type: number
+ *               discounts:
+ *                 type: object
+ *                 properties:
+ *                   amount: 
+ *                     type: number
+ *                   description:
+ *                     type: string
  *               loyalty:
  *                 type: number
  *                 description: must be greater or equal to current User points
@@ -166,8 +172,9 @@ module.exports = router;
  *               from: 2022-01-01
  *               to: 2022-01-07
  *               return: 20220-01-14
- *               price: 50
- *               discount: 5.5
+ *               base: 50
+ *               total: 50
+ *               discounts: []
  *               loyalty: 100
  *               surcharge: 0
  *     responses:
@@ -248,10 +255,17 @@ module.exports = router;
  *               return:
  *                 type: string
  *                 format: date
- *               price:
+ *               base:
  *                 type: number
- *               discount:
+ *               total:
  *                 type: number
+ *               discounts:
+ *                 type: object
+ *                 properties:
+ *                   amount: 
+ *                     type: number
+ *                   description:
+ *                     type: string
  *               surcharge:
  *                 type: number
  *               annotation:
@@ -263,8 +277,9 @@ module.exports = router;
  *               from: 2022-01-01
  *               to: 2022-01-07
  *               return: 2022-01-14
- *               price: 50
- *               discount: 5.5
+ *               base: 50
+ *               total: 50
+ *               discounts: []
  *               surcharge: 0
  *               annotation:
  *                 quick: ["Quick", "Text"]

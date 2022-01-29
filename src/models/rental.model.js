@@ -42,7 +42,12 @@ const rentalSchema = mongoose.Schema(
     },
 
     // Price Fields
-    price: {
+    base: {
+      type: Float,
+      min: 0,
+      required: true,
+    },
+    total: {
       type: Float,
       min: 0,
       required: true,

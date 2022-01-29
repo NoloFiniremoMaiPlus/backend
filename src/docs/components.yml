@@ -69,10 +69,13 @@ components:
         return:
           type: string
           format: date
-        price:
+        base:
           type: number
           description: e.g. 100.50
-        discount:
+        total:
+          type: number
+          description: e.g. 100.50
+        discounts:
           type: object
           properties:
             amount:
