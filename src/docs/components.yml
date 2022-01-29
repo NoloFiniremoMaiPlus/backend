@@ -73,8 +73,12 @@ components:
           type: number
           description: e.g. 100.50
         discount:
-          type: number
-          description: e.g. 100.50
+          type: object
+          properties:
+            amount:
+              type: number
+            description:
+              type: String
         loyalty:
           type: number
           description: points used

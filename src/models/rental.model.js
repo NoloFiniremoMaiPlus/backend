@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var Float = require('mongoose-float').loadType(mongoose, 2);
 const { toJSON, paginate } = require('./plugins');
 const rentalStates = require('../config/rentalStates');
 const { annotationSchema } = require('./annotation.model');
@@ -42,20 +43,25 @@ const rentalSchema = mongoose.Schema(
 
     // Price Fields
     price: {
-      type: mongoose.Types.Decimal128,
+      type: Float,
       min: 0,
       required: true,
     },
-    discount: {
-      type: mongoose.Types.Decimal128,
-      min: 0,
-    },
+    discounts: [{
+      amount: {
+        type: Float,
+        min: 0,
+      },
+      description: {
+        type: String
+      }
+    }],
     loyalty: {
       type: Number,
       min: 0,
     },
     surcharge: {
-      type: mongoose.Types.Decimal128,
+      type: Float,
       min: 0,
     },
 

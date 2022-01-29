@@ -26,7 +26,10 @@ const createRental = {
     to: Joi.date().iso().min(Joi.ref('from')).required(), // min is used as >=
     return: Joi.date().iso().min(Joi.ref('to')),
     price: Joi.number().min(0),
-    discount: Joi.number().min(0),
+    discounts: Joi.array().items(Joi.object().keys({
+      amount: Joi.number().min(0),
+      description: Joi.string(),
+    })),
     loyalty: Joi.number().min(0).default(0),
     surcharge: Joi.number().min(0),
     estimate: Joi.boolean().default(false),
@@ -51,7 +54,10 @@ const updateRental = {
     to: Joi.date().iso(),
     return: Joi.date().iso(),
     price: Joi.number().min(0),
-    discount: Joi.number().min(0),
+    discounts: Joi.array().items(Joi.object().keys({
+      amount: Joi.number().min(0),
+      description: Joi.string(),
+    })),
     surcharge: Joi.number().min(0),
     annotation: annotationSchema,
   })

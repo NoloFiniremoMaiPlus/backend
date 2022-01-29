@@ -12,14 +12,19 @@ const createRental = catchAsync(async (req, res) => {
         // No return date
         delete req.body.return;
 
+        delete req.body.price;
+        delete req.body.discounts;
+
         if(req.user.id != req.body.user)
             throw new ApiError(httpStatus.FORBIDDEN, "Cannot rent an item for another user");
     } else {
         // if rental is created by manager or backoffice, they become the resp
         req.body.resp = req.user.id
     }
+
+    const {estimate, ...rentalBody} = req.body;
     
-    const rental = await rentalService.createRental(req.body);
+    const rental = await rentalService.createRental(rentalBody, estimate);
     res.status(httpStatus.CREATED).send(rental);
 });
   

@@ -30,11 +30,16 @@ const createRental = async (rentalBody, estimate) => {
     if(!(await User.enoughLoyalty(rentalBody.user, rentalBody.loyalty)))
         throw new ApiError(httpStatus.FORBIDDEN, "Insufficend loyalty points");
     
-    rentalBody.price = rentalBody.price || await getRentalPrice(item, new Date(rentalBody.from), new Date(rentalBody.to));
+
+    if(!rentalBody.price && !rentalBody.discounts){
+        const {price, discounts} = await getRentalPrice(item, new Date(rentalBody.from), new Date(rentalBody.to));
+        rentalBody.price = price;
+        rentalBody.disocunts = discounts;
+    }
+
 
     if (estimate) {
-        
-        return rentalBody.price;
+        return new Rental(rentalBody);
 
     } else {
         // Mark item unavailable
@@ -125,15 +130,19 @@ const deleteRentalById = async (rentalId) => {
 };
 
 const getRentalPrice = async (item, from, to) => {
-    // difference in days
-    (Math.floor((to-from) / (1000*60*60*24))+1);
+    var price = item.basePrice;
+    var discounts = [];
 
     for(d = from; d <= to; d.setDate(d.getDate() + 1)){
-        console.log(d);
+        var max = 0;
+        item.discountsDate.forEach(discount => {
+            if(discount.from <= d && d <= discount.to && discount.amount > max){
+                max = discount.amount;
+            }
+        });
+        price += item.dailyPrice * (1-(max/100));
     }
-
-    price = item.basePrice + (Math.floor((to-from) / (1000*60*60*24))+1) * item.dailyPrice;
-    return price;
+    return {price, discounts};
 };
 
 module.exports = {
