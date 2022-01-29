@@ -15,7 +15,7 @@ router
     .route('/:rentalId')
     .get(auth(), validate(rentalValidation.getRental), rentalController.getRental)
     .patch(auth('manageRentals'), validate(rentalValidation.updateRental), rentalController.updateRental)
-    .delete(auth('manageRentals'), validate(rentalValidation.deleteRental), rentalController.deleteRental);
+    .delete(auth(), validate(rentalValidation.deleteRental), rentalController.deleteRental);
 
 module.exports = router;
 
