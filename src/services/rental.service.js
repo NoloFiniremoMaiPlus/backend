@@ -141,14 +141,14 @@ const getRentalPrice = async (item, from, to) => {
     for(d = from; d <= to; d.setDate(d.getDate() + 1)){
         var max = 0;
         item.discountsDate.forEach(discount => {
-            if(from < discount.from && discount.to < to // discount can't start or end in rental range [from,to]
+            if((from < discount.from || discount.to < to) // discount can't start or end in rental range [from,to]
                 && discount.from <= d && d <= discount.to // day is in discount range
                 && discount.amount > max){ // new discount is better than the old
                 max = discount.amount;
             }
         });
         item.discountsWeekday.forEach(discount => {
-            if(from < discount.from && discount.to < to // discount can't start or end in rental range [from,to]
+            if((from < discount.from || discount.to < to) // discount can't start or end in rental range [from,to]
                 && discount.from <= d.getDay() && d.getDay() <= discount.to // day is in discount range
                 && discount.amount > max){ // new discount is better than the old
                 max = discount.amount;
