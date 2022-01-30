@@ -135,27 +135,32 @@ const deleteRentalById = async (rentalId) => {
 
 const getRentalPrice = async (item, from, to) => {
     const base = item.basePrice + (Math.floor((to-from) / (1000*60*60*24))+1) * item.dailyPrice;
-    var total = item.basePrice;
-    var discounts = [];
+    var discounts = (item.discount > 0) ? [{amount: item.discount, description: "Flat Discount"}] : [];
+    var total = item.basePrice * (1-((item.discount)/100));
 
     for(d = from; d <= to; d.setDate(d.getDate() + 1)){
         var max = 0;
         item.discountsDate.forEach(discount => {
-            if(discount.from <= d && d <= discount.to && discount.amount > max){
+            if(from < discount.from && discount.to < to // discount can't start or end in rental range [from,to]
+                && discount.from <= d && d <= discount.to // day is in discount range
+                && discount.amount > max){ // new discount is better than the old
                 max = discount.amount;
             }
         });
         item.discountsWeekday.forEach(discount => {
-            if(discount.from <= d.getDay() && d.getDay() <= discount.to && discount.amount > max){
+            if(from < discount.from && discount.to < to // discount can't start or end in rental range [from,to]
+                && discount.from <= d.getDay() && d.getDay() <= discount.to // day is in discount range
+                && discount.amount > max){ // new discount is better than the old
                 max = discount.amount;
             }
         });
-        if (max != 0)
+        if (max != 0){
             discounts.push({
                 amount: max,
                 description: d.toISOString().split('T')[0]
             });
-        total += item.dailyPrice * (1-(max/100));
+        }
+        total += item.dailyPrice * (1-((item.discount+max)/100));
     }
     return {base, total, discounts};
 };
