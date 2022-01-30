@@ -45,7 +45,7 @@ const getRental = catchAsync(async (req, res) => {
     const rental = await rentalService.getRentalById(req.params.rentalId);
     if (!rental) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Rental not found');
-    } else if (req.user.role = "user" && req.user.id !== rental.user) {
+    } else if (req.user.role == "user" && req.user.id !== rental.user) {
         // User can see their rental, mangager/backoffice can see every rental
         throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden');
     }
