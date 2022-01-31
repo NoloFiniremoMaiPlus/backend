@@ -9,7 +9,7 @@ const discountDateSchema = {
 
 const discountWeekDaySchema = {
 	from: Joi.number().min(0).max(6).integer().required(),
-	to: Joi.number().min(Joi.ref('from')).max(6).integer(), // min is used as >=
+	to: Joi.number().min(0).max(6).integer(),
 	amount: Joi.number().min(0).max(100),
 	description: Joi.string()
 }
