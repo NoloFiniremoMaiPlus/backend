@@ -4,6 +4,7 @@ const userService = require('./user.service');
 const itemService = require('./item.service');
 const ApiError = require('../utils/ApiError');
 
+const dayms = (1000*60*60*24)
 
 // If it ended, add loyalty points to User
 const endRental = (rental) => {
@@ -42,6 +43,13 @@ const createRental = async (rentalBody, estimate) => {
         rentalBody.loyalty = rentalBody.total;
     
     rentalBody.total -= rentalBody.loyalty;
+
+    // if the item is returned late, add surcharge
+    if(rentalBody.return){
+        rentalBody.surcharge = 1.5 * item.dailyPrice * (Math.floor((rentalBody.return-rentalBody.to) / dayms))
+    }
+
+    rentalBody.total += rentalBody.surcharge;
 
     if (estimate) {
         return new Rental(rentalBody);
@@ -91,6 +99,7 @@ const updateRentalById = async (rentalId, updateBody) => {
         return obj.from.getTime() == from.getTime() 
             && obj.to.getTime() == to.getTime();
     }).id;
+
     //Check if expanding the range, it overlaps with another rental
     if( (new Date(updateBody.from) < from && await item.isUnavailable(updateBody.from, from-1, rangeId)) ||
             (to < new Date(updateBody.to) && await item.isUnavailable(to+1, updateBody.to, rangeId)) )
@@ -98,6 +107,12 @@ const updateRentalById = async (rentalId, updateBody) => {
 
     if(updateBody.user && !(await userService.getUserById(updateBody.user)))
         throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+
+    // update total if item returned late
+    if(updateBody.return){
+        updateBody.surcharge = 1.5 * item.dailyPrice * (Math.floor((updateBody.return-updateBody.to) / dayms))
+    }
+    updateBody.total += updateBody.surcharge;
 
     var rental = await Rental.findByIdAndUpdate(rentalId, updateBody, { returnDocument: 'after' }).exec();
     
@@ -134,7 +149,7 @@ const deleteRentalById = async (rentalId) => {
 };
 
 const getRentalPrice = async (item, from, to) => {
-    const base = item.basePrice + (Math.floor((to-from) / (1000*60*60*24))+1) * item.dailyPrice;
+    const base = item.basePrice + (Math.floor((to-from) / dayms)+1) * item.dailyPrice;
     var discounts = (item.discount > 0) ? [{amount: item.discount, description: "Flat Discount"}] : [];
     var total = item.basePrice * (1-((item.discount)/100));
 
@@ -148,8 +163,8 @@ const getRentalPrice = async (item, from, to) => {
             }
         });
         item.discountsWeekday.forEach(discount => {
-            if( !(d-from < 7*(1000*60*60*24) && 0 <= (from.getDay() - discount.from).mod(7) && (from.getDay() - discount.from).mod(7) <= (discount.to - discount.from).mod(7)) // NOT discount.from <= from <= discount.to 
-                && !(to-d < 7*(1000*60*60*24) && 0 <= (to.getDay() - discount.from).mod(7) && (to.getDay() - discount.from).mod(7) <= (discount.to - discount.from).mod(7)) // NOT discount.from <= to <= discount.to
+            if( !(d-from < 7*dayms && 0 <= (from.getDay() - discount.from).mod(7) && (from.getDay() - discount.from).mod(7) <= (discount.to - discount.from).mod(7)) // NOT discount.from <= from <= discount.to 
+                && !(to-d < 7*dayms && 0 <= (to.getDay() - discount.from).mod(7) && (to.getDay() - discount.from).mod(7) <= (discount.to - discount.from).mod(7)) // NOT discount.from <= to <= discount.to
                 && discount.from <= d.getDay() && d.getDay() <= discount.to // day is in discount range
                 && discount.amount > max){ // new discount is better than the old
                 max = discount.amount;

@@ -32,7 +32,7 @@ const createRental = {
       description: Joi.string(),
     })),
     loyalty: Joi.number().min(0).default(0),
-    surcharge: Joi.number().min(0),
+    surcharge: Joi.number().min(0).default(0),
     estimate: Joi.boolean().default(false),
   }),
 };
