@@ -138,7 +138,7 @@ const getRentalPrice = async (item, from, to) => {
     var discounts = (item.discount > 0) ? [{amount: item.discount, description: "Flat Discount"}] : [];
     var total = item.basePrice * (1-((item.discount)/100));
 
-    for(d = from; d <= to; d.setDate(d.getDate() + 1)){
+    for(d = new Date(from); d <= to; d.setDate(d.getDate() + 1)){
         var max = 0;
         item.discountsDate.forEach(discount => {
             if((from < discount.from || discount.to < to) // discount can't start or end in rental range [from,to]
@@ -148,7 +148,8 @@ const getRentalPrice = async (item, from, to) => {
             }
         });
         item.discountsWeekday.forEach(discount => {
-            if((from.getDay() < discount.from || discount.to < to.getDay()) // discount can't start or end in rental range [from,to]
+            if( !(d-from < 7*(1000*60*60*24) && 0 <= (from.getDay() - discount.from).mod(7) && (from.getDay() - discount.from).mod(7) <= (discount.to - discount.from).mod(7)) // NOT discount.from <= from <= discount.to 
+                && !(to-d < 7*(1000*60*60*24) && 0 <= (to.getDay() - discount.from).mod(7) && (to.getDay() - discount.from).mod(7) <= (discount.to - discount.from).mod(7)) // NOT discount.from <= to <= discount.to
                 && discount.from <= d.getDay() && d.getDay() <= discount.to // day is in discount range
                 && discount.amount > max){ // new discount is better than the old
                 max = discount.amount;
