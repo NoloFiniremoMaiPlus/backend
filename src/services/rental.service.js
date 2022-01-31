@@ -148,7 +148,7 @@ const getRentalPrice = async (item, from, to) => {
             }
         });
         item.discountsWeekday.forEach(discount => {
-            if((from < discount.from || discount.to < to) // discount can't start or end in rental range [from,to]
+            if((from.getDay() < discount.from || discount.to < to.getDay()) // discount can't start or end in rental range [from,to]
                 && discount.from <= d.getDay() && d.getDay() <= discount.to // day is in discount range
                 && discount.amount > max){ // new discount is better than the old
                 max = discount.amount;
@@ -160,7 +160,7 @@ const getRentalPrice = async (item, from, to) => {
                 description: d.toISOString().split('T')[0]
             });
         }
-        total += item.dailyPrice * (1-((item.discount+max)/100));
+        total += item.dailyPrice * (1-(max)/100);
     }
     return {base, total, discounts};
 };
