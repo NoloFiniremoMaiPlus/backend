@@ -49,7 +49,7 @@ const deleteItemById = async (itemId) => {
 };
 
 const addUnavailable = async (itemId, from, to) => {
-    updateItem(itemId, {
+    return await updateItem(itemId, {
         "$push" : 
             { unavailable : {
                 from: from,
@@ -60,7 +60,7 @@ const addUnavailable = async (itemId, from, to) => {
 };
 
 const deleteUnavailable = async (itemId, from, to) => {
-    updateItem(itemId, {
+    return await updateItem(itemId, {
         "$pull" : 
             { unavailable : {
                 from: from,

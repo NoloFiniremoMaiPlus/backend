@@ -11,7 +11,7 @@ const endRental = (rental) => {
     if(rental.state == "Returned")
         userService.updateUserById(rental.user, 
                                     { $inc : {
-                                        loyalty: Math.floor(rental.price/20)
+                                        loyalty: Math.floor(rental.total/20)
                                     } });
 }
 
@@ -87,6 +87,7 @@ const updateRentalById = async (rentalId, updateBody) => {
     updateBody.from = updateBody.from || from;
     updateBody.to = updateBody.to || to;
     updateBody.item = updateBody.item || rent.item;
+    updateBody.total = updateBody.total || rent.total;
     
     if(updateBody.from > updateBody.to)
         throw new ApiError(httpStatus.BAD_REQUEST, "Invalid dates")
@@ -98,7 +99,10 @@ const updateRentalById = async (rentalId, updateBody) => {
     rangeId = item.unavailable.find(obj => {
         return obj.from.getTime() == from.getTime() 
             && obj.to.getTime() == to.getTime();
-    }).id;
+    })?.id;
+
+    if(!rangeId)
+        throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "Cant find this rental inside item");
 
     //Check if expanding the range, it overlaps with another rental
     if( (new Date(updateBody.from) < from && await item.isUnavailable(updateBody.from, from-1, rangeId)) ||
@@ -110,9 +114,12 @@ const updateRentalById = async (rentalId, updateBody) => {
 
     // update total if item returned late
     if(updateBody.return){
-        updateBody.surcharge = 1.5 * item.dailyPrice * (Math.floor((updateBody.return-updateBody.to) / dayms))
+        if(updateBody.return >= rent.to)
+            updateBody.surcharge = 1.5 * item.dailyPrice * (Math.floor((updateBody.return-updateBody.to) / dayms));
+        else
+            throw new ApiError(httpStatus.BAD_REQUEST, "'return' must be grater than rent's end date");
     }
-    updateBody.total += updateBody.surcharge;
+    updateBody.total += (updateBody.surcharge || 0);
 
     var rental = await Rental.findByIdAndUpdate(rentalId, updateBody, { returnDocument: 'after' }).exec();
     
