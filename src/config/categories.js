@@ -1,2 +1,2 @@
-const categories = ["Category_1", "Category_2", "Category_3"];
+const categories = ["Gamepad", "Joycon", "Joystick", "Keyboard", "Mouse", "SimController"];
 module.exports = categories;
