@@ -11,6 +11,9 @@ yarn-error.log
 # Code coverage
 coverage
 
+# build folders
+user/
+
 # SSL Key
 sslcert/*
 .crt
