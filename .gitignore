@@ -13,6 +13,8 @@ coverage
 
 # build folders
 user/
+office/
+manager/
 
 # SSL Key
 sslcert/*

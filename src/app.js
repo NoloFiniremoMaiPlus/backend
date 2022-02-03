@@ -65,6 +65,8 @@ app.use('/v1', routes);
 
 // add React middlewares
 app.use(express.static(path.join(__dirname, "..", "user")));
+app.use(express.static(path.join(__dirname, "..", "office")));
+app.use(express.static(path.join(__dirname, "..", "manager")));
 app.use(express.static("public"));
 
 app.get('/users/:id', (req, res, next) => {
@@ -73,6 +75,14 @@ app.get('/users/:id', (req, res, next) => {
 
 app.get('/', (req, res, next) => {
   res.sendFile(path.join(__dirname, "..", "user", "index.html"));
+});
+
+app.get('/office', (req, res, next) => {
+  res.sendFile(path.join(__dirname, "..", "office", "index.html"));
+});
+
+app.get('/manager', (req, res, next) => {
+  res.sendFile(path.join(__dirname, "..", "manager", "index.html"));
 });
 
 // send back a 404 error for any unknown api request
