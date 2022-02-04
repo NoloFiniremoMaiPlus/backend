@@ -77,11 +77,11 @@ app.get('/', (req, res, next) => {
   res.sendFile(path.join(__dirname, "..", "user", "index.html"));
 });
 
-app.get('/office', (req, res, next) => {
+app.get('/office*', (req, res, next) => {
   res.sendFile(path.join(__dirname, "..", "office", "index.html"));
 });
 
-app.get('/manager', (req, res, next) => {
+app.get('/manager*', (req, res, next) => {
   res.sendFile(path.join(__dirname, "..", "manager", "index.html"));
 });
 
