@@ -118,8 +118,8 @@ const updateRentalById = async (rentalId, updateBody) => {
             updateBody.surcharge = 1.5 * item.dailyPrice * (Math.floor((updateBody.return-updateBody.to) / dayms));
         else
             throw new ApiError(httpStatus.BAD_REQUEST, "'return' must be grater than rent's end date");
+        updateBody.total = updateBody.total - rent.surcharge + updateBody.surcharge;
     }
-    updateBody.total += (updateBody.surcharge || 0);
 
     var rental = await Rental.findByIdAndUpdate(rentalId, updateBody, { returnDocument: 'after' }).exec();
     
