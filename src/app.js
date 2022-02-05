@@ -73,15 +73,15 @@ app.get('/users/:id', (req, res, next) => {
   res.render('users', {id : req.params.id});
 });
 
-app.get('/', (req, res, next) => {
+app.get('/($|signIn|profile|orders|catalogue|item/:id)', (req, res, next) => {
   res.sendFile(path.join(__dirname, "..", "user", "index.html"));
 });
 
-app.get('/office*', (req, res, next) => {
+app.get('/office', (req, res, next) => {
   res.sendFile(path.join(__dirname, "..", "office", "index.html"));
 });
 
-app.get('/manager*', (req, res, next) => {
+app.get('/manager($|/*)', (req, res, next) => {
   res.sendFile(path.join(__dirname, "..", "manager", "index.html"));
 });
 
