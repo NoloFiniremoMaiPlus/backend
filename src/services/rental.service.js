@@ -122,7 +122,7 @@ const updateRentalById = async (rentalId, updateBody) => {
             throw new ApiError(httpStatus.BAD_REQUEST, "'return' must be grater than rent's end date");
         updateBody.total = updateBody.total - rent.surcharge + updateBody.surcharge;
     } else {
-        updateBody.return = updateBody
+        updateBody.return = updateBody.to
     }
 
     var rental = await Rental.findByIdAndUpdate(rentalId, updateBody, { returnDocument: 'after' }).exec();
