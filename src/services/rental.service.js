@@ -47,6 +47,8 @@ const createRental = async (rentalBody, estimate) => {
     // if the item is returned late, add surcharge
     if(rentalBody.return){
         rentalBody.surcharge = 1.5 * item.dailyPrice * (Math.floor((rentalBody.return-rentalBody.to) / dayms))
+    } else {
+        rentalBody.return = rentalBody.to
     }
 
     rentalBody.total += rentalBody.surcharge;
@@ -119,6 +121,8 @@ const updateRentalById = async (rentalId, updateBody) => {
         else
             throw new ApiError(httpStatus.BAD_REQUEST, "'return' must be grater than rent's end date");
         updateBody.total = updateBody.total - rent.surcharge + updateBody.surcharge;
+    } else {
+        updateBody.return = updateBody
     }
 
     var rental = await Rental.findByIdAndUpdate(rentalId, updateBody, { returnDocument: 'after' }).exec();
