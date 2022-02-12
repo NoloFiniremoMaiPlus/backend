@@ -48,6 +48,7 @@ const itemSchema = mongoose.Schema(
     },
     discount: {
       type: Number,
+      default: 0,
     },
     discountsDate: [{type: discountDateSchema}],
     discountsWeekday: [{type: discountWeekDaySchema}],
