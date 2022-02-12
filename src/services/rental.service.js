@@ -164,7 +164,7 @@ const getRentalPrice = async (item, from, to) => {
     var discounts = (item.discount > 0) ? [{amount: item.discount, description: "Flat Discount"}] : [];
     var total = item.basePrice * (1-((item.discount)/100));
 
-    for(d = from; d <= to; d.setDate(d.getDate() + 1)){
+    for(d = new Date(from); d <= to; d.setDate(d.getDate() + 1)){
         var max = 0;
         item.discountsDate.forEach(discount => {
             if((from < discount.from || discount.to < to) // discount can't start or end in rental range [from,to]
