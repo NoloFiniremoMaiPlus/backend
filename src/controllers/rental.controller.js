@@ -7,8 +7,8 @@ const ApiError = require('../utils/ApiError');
 const createRental = catchAsync(async (req, res) => {
 
     // Fix date to midnight
-    req.body.from.setHours(0,0,0,0);
-    req.body.to.setHours(0,0,0,0);
+    req.body.from?.setHours(0,0,0,0);
+    req.body.to?.setHours(0,0,0,0);
     req.body.return?.setHours(0,0,0,0);
 
     if(req.user.role == "user"){
@@ -58,13 +58,13 @@ const getRental = catchAsync(async (req, res) => {
 });
 
 const updateRental = catchAsync(async (req, res) => {
-    // when backoffice or manager edit the rental they become the resp
     
     // Fix date to midnight
-    req.body.from.setHours(0,0,0,0);
-    req.body.to.setHours(0,0,0,0);
+    req.body.from?.setHours(0,0,0,0);
+    req.body.to?.setHours(0,0,0,0);
     req.body.return?.setHours(0,0,0,0);
-
+    
+    // when backoffice or manager edit the rental they become the resp
     if(req.user.role != "user")
         req.body.resp = req.user.id
     const rental = await rentalService.updateRentalById(req.params.rentalId, req.body);
